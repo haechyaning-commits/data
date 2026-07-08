@@ -15,6 +15,24 @@ function log(msg) {
   fs.appendFileSync(LOG_FILE, line + '\n');
 }
 
+const MAX_CHUNK_BYTES = 90 * 1024 * 1024; // GitHub hard limit is 100MB; leave margin
+
+function saveMaybeSplit(outDir, finalName, ext, buf) {
+  if (buf.length <= MAX_CHUNK_BYTES) {
+    fs.writeFileSync(path.join(outDir, `${finalName}${ext}`), buf);
+    return `${finalName}${ext}`;
+  }
+  const parts = Math.ceil(buf.length / MAX_CHUNK_BYTES);
+  const names = [];
+  for (let i = 0; i < parts; i++) {
+    const chunk = buf.subarray(i * MAX_CHUNK_BYTES, (i + 1) * MAX_CHUNK_BYTES);
+    const name = `${finalName}_조각(${i + 1})${ext}.part`;
+    fs.writeFileSync(path.join(outDir, name), chunk);
+    names.push(name);
+  }
+  return names.join(', ');
+}
+
 function sanitize(name) {
   return name.replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, ' ').trim().slice(0, 150);
 }
@@ -119,15 +137,17 @@ async function main() {
           group[i].finalName = needsNumbering ? `${base}(${i + 1})` : base;
         }
         const finalName = group[group.length - 1].finalName;
-        // If renumbering just flipped a single-entry group into a numbered one, rename its file on disk.
+        // If renumbering just flipped a single-entry group into a numbered one, rename its file(s) on disk.
         if (needsNumbering && group.length === 2) {
-          // find old single file (no suffix) and rename it to (1)
           const oldBase = base;
-          const files = fs.readdirSync(OUT_DIR).filter((f) => f.startsWith(oldBase) && !f.match(/\(\d+\)/));
-          for (const f of files) {
+          for (const f of fs.readdirSync(OUT_DIR)) {
+            const isChunk = f.startsWith(`${oldBase}_조각(`);
             const ext = path.extname(f);
             const stem = f.slice(0, -ext.length);
-            if (stem === oldBase) {
+            const isPlainMatch = stem === oldBase;
+            if (isChunk) {
+              fs.renameSync(path.join(OUT_DIR, f), path.join(OUT_DIR, f.replace(oldBase, `${oldBase}(1)`)));
+            } else if (isPlainMatch) {
               fs.renameSync(path.join(OUT_DIR, f), path.join(OUT_DIR, `${oldBase}(1)${ext}`));
             }
           }
@@ -139,10 +159,9 @@ async function main() {
         }
         const bodyBuf = await postDownload(fileInfo.fileId, fileInfo.fileSn);
         const srcExt = (fileInfo.fileName.match(/\.[a-zA-Z0-9]+$/) || ['.pdf'])[0];
-        const outPath = path.join(OUT_DIR, `${finalName}${srcExt}`);
-        fs.writeFileSync(outPath, bodyBuf);
+        const savedAs = saveMaybeSplit(OUT_DIR, finalName, srcExt, bodyBuf);
         cp.totalFiles++;
-        log(`SAVED: ${finalName}${srcExt} (${bodyBuf.length}B) <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
+        log(`SAVED: ${savedAs} (${bodyBuf.length}B) <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
       }
       cp.totalReports++;
     }
