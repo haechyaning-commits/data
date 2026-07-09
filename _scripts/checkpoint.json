@@ -1,5 +1,5 @@
 {
-  "nextPage": 149,
+  "nextPage": 150,
   "nameRegistry": {
     "중소기업은행_2025년 특정감사": [
       {
@@ -26106,6 +26106,26 @@
         "contentKey": "0d777aebda2abcc14465ecf3cde253c5da29bc5393578a2355820168e539686f",
         "order": 9,
         "finalName": "중소기업은행_2025년 종합감사(10)"
+      },
+      {
+        "contentKey": "bb8b4b405c2752ff5d1519f4625b59fba9dc5dcff3eb3a3bb8d110850ba41098",
+        "order": 10,
+        "finalName": "중소기업은행_2025년 종합감사(11)"
+      },
+      {
+        "contentKey": "dee443ae146450e88b959e1fe28e9a74341c1fefd9dc8e3b54236b3e17d91d09",
+        "order": 11,
+        "finalName": "중소기업은행_2025년 종합감사(12)"
+      },
+      {
+        "contentKey": "eca444e1eba676f2c3d6280ae931493fed65750c5eded62e11e488619f7d94f7",
+        "order": 12,
+        "finalName": "중소기업은행_2025년 종합감사(13)"
+      },
+      {
+        "contentKey": "87550b67214376a9331e6cccfcaf59f2b760a959639a2d1583f9554752671509",
+        "order": 13,
+        "finalName": "중소기업은행_2025년 종합감사(14)"
       }
     ],
     "한국사회적기업진흥원_2025년 복무감사": [
@@ -31887,7 +31907,12 @@
       {
         "contentKey": "415eb5538d15993be94083fbfa82524b9ee13e1ca94a7e3db70c086b74b9c5a3",
         "order": 0,
-        "finalName": "한국전력기술_2025년 특정감사"
+        "finalName": "한국전력기술_2025년 특정감사(1)"
+      },
+      {
+        "contentKey": "8bffb39cb2b03f7ba4aa4792a934c00e55b73f1557ab75474082a098f689eb36",
+        "order": 1,
+        "finalName": "한국전력기술_2025년 특정감사(2)"
       }
     ],
     "한국석유관리원_2025년 종합감사": [
@@ -34291,6 +34316,11 @@
         "contentKey": "4665be38e033c24ac08cf25207c63644f5fd7371d58e0eb355e78836ff81fc7c",
         "order": 1,
         "finalName": "남양주도시공사_2025년 특정감사(2)"
+      },
+      {
+        "contentKey": "5d223a8bacd9ca3438ddcd5c97bc216e13f4db4c109661bc32f0566c9a083019",
+        "order": 2,
+        "finalName": "남양주도시공사_2025년 특정감사(3)"
       }
     ],
     "한국식품산업클러스터진흥원_2025년 종합감사": [
@@ -35095,7 +35125,12 @@
       {
         "contentKey": "d971beec57d0697829231c7643788c9c08c94196a1e06a78f4300fceb8bf1eb0",
         "order": 0,
-        "finalName": "한국인터넷진흥원_2025년 복무감사"
+        "finalName": "한국인터넷진흥원_2025년 복무감사(1)"
+      },
+      {
+        "contentKey": "f3a7d5545f9d3f02fd7e83d0d502932b5e8c61d1a90af3027dbac6b28760421f",
+        "order": 1,
+        "finalName": "한국인터넷진흥원_2025년 복무감사(2)"
       }
     ],
     "한국산업기술진흥원_2025년 종합감사": [
@@ -35186,8 +35221,135 @@
         "order": 0,
         "finalName": "한국산업기술기획평가원_2025년 복무감사"
       }
+    ],
+    "한국교육학술정보원_2025년 종합감사": [
+      {
+        "contentKey": "0b38d76504a0160a8604bd27710781012a759fb91fabf5ddec53b4e0fc0ae664",
+        "order": 0,
+        "finalName": "한국교육학술정보원_2025년 종합감사(1)"
+      },
+      {
+        "contentKey": "63bce60083c855bbeb03d9882036ea7948193725eb6509f30a2f3ec29fc6c3d6",
+        "order": 1,
+        "finalName": "한국교육학술정보원_2025년 종합감사(2)"
+      },
+      {
+        "contentKey": "e660051b5cc16b62e28b5f5d3e0c65265f2e0ed7429043776a0686c703243af8",
+        "order": 2,
+        "finalName": "한국교육학술정보원_2025년 종합감사(3)"
+      },
+      {
+        "contentKey": "daae919ec5e4139ea9de98895c434dc52573d38acdea53854df0a45fdeafd63f",
+        "order": 3,
+        "finalName": "한국교육학술정보원_2025년 종합감사(4)"
+      },
+      {
+        "contentKey": "6a5ada64b2772e85b8da59a5148b7540242ef54af632a0760920986418082157",
+        "order": 4,
+        "finalName": "한국교육학술정보원_2025년 종합감사(5)"
+      },
+      {
+        "contentKey": "080e87dc6846e1eca15d9f20dded3f5528f31648cc34189adc77f0e1a3264675",
+        "order": 5,
+        "finalName": "한국교육학술정보원_2025년 종합감사(6)"
+      },
+      {
+        "contentKey": "7970e129eb997fefd0e427a491ce25a52559f818228d2d88d8bcffd742bd6f74",
+        "order": 6,
+        "finalName": "한국교육학술정보원_2025년 종합감사(7)"
+      },
+      {
+        "contentKey": "f159621022bf320b92ec33e99dbcd9d78f0954507e7e079b26bd414034e55732",
+        "order": 7,
+        "finalName": "한국교육학술정보원_2025년 종합감사(8)"
+      },
+      {
+        "contentKey": "2da60107cc966628db14f7a865d73df34417c1cac4cab11f1d6510873acd769c",
+        "order": 8,
+        "finalName": "한국교육학술정보원_2025년 종합감사(9)"
+      }
+    ],
+    "한국석유관리원_2025년 성과감사": [
+      {
+        "contentKey": "7c46308af8b90b7cd1f276889de3b53ffca5cea46453e8e9093b2b644b1b9d3d",
+        "order": 0,
+        "finalName": "한국석유관리원_2025년 성과감사(1)"
+      },
+      {
+        "contentKey": "957517b946f774bb4233914e01b05112a6ebb53f8f97ff3014d82b8bbd7ab332",
+        "order": 1,
+        "finalName": "한국석유관리원_2025년 성과감사(2)"
+      },
+      {
+        "contentKey": "66b357729f155f720e3df8ff83f72fe118d37c9b7f35b51ab6f779bbbe80ac49",
+        "order": 2,
+        "finalName": "한국석유관리원_2025년 성과감사(3)"
+      },
+      {
+        "contentKey": "e74e6ef3b3e17a75d767531186c81badfe458d2ae3b0e7f2c12cfb4107570368",
+        "order": 3,
+        "finalName": "한국석유관리원_2025년 성과감사(4)"
+      },
+      {
+        "contentKey": "230304de25814b8e2e140d86ccd9345621e64fc0a66e2ce0299d8b8ce1ca8d46",
+        "order": 4,
+        "finalName": "한국석유관리원_2025년 성과감사(5)"
+      },
+      {
+        "contentKey": "b80de732a51dc5ea8c78da19a88196cf536d56ebdd708d6a5a5158b40a55b742",
+        "order": 5,
+        "finalName": "한국석유관리원_2025년 성과감사(6)"
+      }
+    ],
+    "한국광해광업공단_2025년 복무감사": [
+      {
+        "contentKey": "5a2e239092f03db99fab9cf02cd525812f1957d9c29df040830beb339cbe32a5",
+        "order": 0,
+        "finalName": "한국광해광업공단_2025년 복무감사"
+      }
+    ],
+    "한국인터넷진흥원_2025년 성과감사": [
+      {
+        "contentKey": "820c9eecdb83d0a29032797e28af033cc64dcc80012fbdaa126a6282162df8ba",
+        "order": 0,
+        "finalName": "한국인터넷진흥원_2025년 성과감사"
+      }
+    ],
+    "예금보험공사_2025년 특정감사": [
+      {
+        "contentKey": "f769800aea1e51e51ea0892e76f1b4ab4482ff3b96cc5886296e0acb57240f14",
+        "order": 0,
+        "finalName": "예금보험공사_2025년 특정감사"
+      }
+    ],
+    "한국남부발전_2025년 성과감사": [
+      {
+        "contentKey": "0f9d0569a91c3079a21bd2a7c15b8c133da559935a228afbb67e937a92312d21",
+        "order": 0,
+        "finalName": "한국남부발전_2025년 성과감사(1)"
+      },
+      {
+        "contentKey": "93d7eef60625d80d4837082bf282abd9f3d75f62b14825f1ed78cbab3f79d15f",
+        "order": 1,
+        "finalName": "한국남부발전_2025년 성과감사(2)"
+      },
+      {
+        "contentKey": "776afe0dcbdcefe20017369407285c146926029dd3473d1ec5baf45cc5b35882",
+        "order": 2,
+        "finalName": "한국남부발전_2025년 성과감사(3)"
+      },
+      {
+        "contentKey": "e409052badb583bfc18be62def8d9232ed7fe59f9732bcff8f5a2919417d68f3",
+        "order": 3,
+        "finalName": "한국남부발전_2025년 성과감사(4)"
+      },
+      {
+        "contentKey": "ea182a87d881453b02551ae9deb0ec3fef02cae753b986ae42aa8e6c2a0bac05",
+        "order": 4,
+        "finalName": "한국남부발전_2025년 성과감사(5)"
+      }
     ]
   },
-  "totalReports": 1490,
-  "totalFiles": 6759
+  "totalReports": 1500,
+  "totalFiles": 6789
 }
