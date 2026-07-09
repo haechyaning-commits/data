@@ -1,5 +1,5 @@
 {
-  "nextPage": 162,
+  "nextPage": 163,
   "nameRegistry": {
     "중소기업은행_2025년 특정감사": [
       {
@@ -4797,6 +4797,11 @@
         "contentKey": "72709fda732508c6d4d549202c067c12c717eb24b9c59fdc2c55e754b03500c2",
         "order": 36,
         "finalName": "한국전력공사_2025년 특정감사(37)"
+      },
+      {
+        "contentKey": "dec0951d6938cc909587a5b08e34e9667bb9af0758096ac49948537f30f30765",
+        "order": 37,
+        "finalName": "한국전력공사_2025년 특정감사(38)"
       }
     ],
     "한국남부발전_2026년 특정감사": [
@@ -27395,6 +27400,21 @@
         "contentKey": "85ed1fd41155623927b60959acc7cb146319ab80c717fb4f440130ca7fdbb750",
         "order": 2,
         "finalName": "한국영유아보육·교육진흥원_2025년 복무감사(3)"
+      },
+      {
+        "contentKey": "702a9e0d413d325f61fb4e70cbc470dac9ab8c493deef384f508a7a4f630388b",
+        "order": 3,
+        "finalName": "한국영유아보육·교육진흥원_2025년 복무감사(4)"
+      },
+      {
+        "contentKey": "058648c4821d205a2942636433f9cfd5c4780bfa682a1a6e1bc7d1b6e5e282c1",
+        "order": 4,
+        "finalName": "한국영유아보육·교육진흥원_2025년 복무감사(5)"
+      },
+      {
+        "contentKey": "eb9b5ad98f88d56dc105d0ed83448cddad1e4d7f0fe60d6a3f5ff5ce56226730",
+        "order": 5,
+        "finalName": "한국영유아보육·교육진흥원_2025년 복무감사(6)"
       }
     ],
     "한국산업단지공단_2026년 복무감사": [
@@ -28077,6 +28097,26 @@
         "contentKey": "a55ab1267c0a8200dd6b0bcb951a2ab305e381538e04091fbea19ce50b3514b4",
         "order": 13,
         "finalName": "한국전기안전공사_2025년 복무감사(14)"
+      },
+      {
+        "contentKey": "05744f32a83706c7e8c889fff6440dd0369a15250859f49851a473b7fa78572d",
+        "order": 14,
+        "finalName": "한국전기안전공사_2025년 복무감사(15)"
+      },
+      {
+        "contentKey": "27ec49d30a9fd130eff29b489fe7e9de7d43b6ac76cc9bfad424aa01ca768130",
+        "order": 15,
+        "finalName": "한국전기안전공사_2025년 복무감사(16)"
+      },
+      {
+        "contentKey": "0a4072ac886e89e4b41c6200d5fe5391a2400c9f69bced10e889b1ac5ab1a02c",
+        "order": 16,
+        "finalName": "한국전기안전공사_2025년 복무감사(17)"
+      },
+      {
+        "contentKey": "55c54110cb256a6bf725d879f2373da221f6f12d11ebceab42a90c28282f949d",
+        "order": 17,
+        "finalName": "한국전기안전공사_2025년 복무감사(18)"
       }
     ],
     "한국자산관리공사_2025년 종합감사": [
@@ -28125,6 +28165,16 @@
         "contentKey": "6e7a45939708e2461aedf0b4c2384cd8d053535ece20bcb5fd229da4198ae38c",
         "order": 3,
         "finalName": "한국소비자원_2025년 특정감사(4)"
+      },
+      {
+        "contentKey": "29421665617da9d1e504adc92e204bb6197f65b6cfd475154e29ad353dba3426",
+        "order": 4,
+        "finalName": "한국소비자원_2025년 특정감사(5)"
+      },
+      {
+        "contentKey": "559f1fdba2a699c86d4e8b7073981c4475a0d541132a85fcffdc8b31f3ef7335",
+        "order": 5,
+        "finalName": "한국소비자원_2025년 특정감사(6)"
       }
     ],
     "한국국토정보공사_2025년 특정감사": [
@@ -28480,6 +28530,16 @@
         "contentKey": "1d8fc2bde34e2829b95f69cfda6cef78c1bbf63412617924f3a7bb1f8cbc677e",
         "order": 4,
         "finalName": "한국전기안전공사_2025년 특정감사(5)"
+      },
+      {
+        "contentKey": "1940b314b4a7bf6e19cfbe72ac3424d1b4dc65c35f142b0036154cc3e2901369",
+        "order": 5,
+        "finalName": "한국전기안전공사_2025년 특정감사(6)"
+      },
+      {
+        "contentKey": "f4658cf6dcad70c7ffc13a53dc187e8303b403feb4068754ee48ca2a738838b4",
+        "order": 6,
+        "finalName": "한국전기안전공사_2025년 특정감사(7)"
       }
     ],
     "한국전기안전공사_2025년 종합감사": [
@@ -38264,8 +38324,27 @@
         "order": 0,
         "finalName": "국립낙동강생물자원관_2025년 특정감사"
       }
+    ],
+    "국립부산과학관_2025년 특정감사": [
+      {
+        "contentKey": "22a5c8a31f88f207297341aaffd2d307ff88fe228e2800e38569bf4c19c544bb",
+        "order": 0,
+        "finalName": "국립부산과학관_2025년 특정감사"
+      }
+    ],
+    "한국전력거래소_2025년 특정감사": [
+      {
+        "contentKey": "206af911b5718da040f43a9c2c731dbba558f4dcb088ab02f9ba897ca490da06",
+        "order": 0,
+        "finalName": "한국전력거래소_2025년 특정감사(1)"
+      },
+      {
+        "contentKey": "ae5e0e60692bd541309674aa69b51be78082fa530084cba3db88e3033659d8db",
+        "order": 1,
+        "finalName": "한국전력거래소_2025년 특정감사(2)"
+      }
     ]
   },
-  "totalReports": 1620,
-  "totalFiles": 7357
+  "totalReports": 1630,
+  "totalFiles": 7372
 }
