@@ -106,6 +106,7 @@ async function main() {
 
     for (const row of rows) {
       const base = sanitize(`${row.instCdNm}_${row.adYr}년 ${row.adFldNm}`);
+      log(`Checking: ${base} | 조치사항 ${row.subList ? row.subList.length : 0}건...`);
       // Resolve every subList item's actual file — never assume, always check.
       const seenInRow = new Map();
       for (const sub of row.subList || []) {
