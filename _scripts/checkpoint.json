@@ -1,5 +1,5 @@
 {
-  "nextPage": 159,
+  "nextPage": 160,
   "nameRegistry": {
     "중소기업은행_2025년 특정감사": [
       {
@@ -4782,6 +4782,11 @@
         "contentKey": "42c62187215c87e7951d28110fb96640dd8a7422b88b3f1465e18b6e22425db9",
         "order": 33,
         "finalName": "한국전력공사_2025년 특정감사(34)"
+      },
+      {
+        "contentKey": "f3a0cbdbcd2f96a45a7fe93ce054b054ac737c6222a43f086812aaba78528f15",
+        "order": 34,
+        "finalName": "한국전력공사_2025년 특정감사(35)"
       }
     ],
     "한국남부발전_2026년 특정감사": [
@@ -22586,6 +22591,11 @@
         "contentKey": "c7f8ec186f5b51a9754ea137952dc32ae0f6b232223d425d7889091f08034e40",
         "order": 14,
         "finalName": "한국농어촌공사_2025년 복무감사(15)"
+      },
+      {
+        "contentKey": "3073a36009e0ede3973458e4f2a74e4555652711b7a9d30961e65f4b7589d16a",
+        "order": 15,
+        "finalName": "한국농어촌공사_2025년 복무감사(16)"
       }
     ],
     "한국광해광업공단_2026년 복무감사": [
@@ -38070,6 +38080,6 @@
       }
     ]
   },
-  "totalReports": 1590,
-  "totalFiles": 7319
+  "totalReports": 1600,
+  "totalFiles": 7321
 }
