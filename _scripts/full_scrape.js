@@ -3,6 +3,7 @@ process.on('uncaughtException', (e) => { console.error('[ignored stray socket er
 const { proxyRequest } = require('./lib.js');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const OUT_DIR = process.argv[2] || '/home/user/data/자체감사결과';
 const PAGE_SIZE = 10;
@@ -108,27 +109,37 @@ async function main() {
       const base = sanitize(`${row.instCdNm}_${row.adYr}년 ${row.adFldNm}`);
       log(`Checking: ${base} | 조치사항 ${row.subList ? row.subList.length : 0}건...`);
       // Resolve every subList item's actual file — never assume, always check.
-      const seenInRow = new Map();
+      // Pre-dedup by fileId+fileSn (same attachment record => definitely identical
+      // bytes, safe to skip re-downloading), but the FINAL identity used for naming
+      // is the actual content hash, since two different attachment records can
+      // legitimately contain byte-identical content under different fileName metadata.
+      const seenAttachment = new Map(); // fileId::fileSn -> { fileInfo, bodyBuf, hash }
+      const rowFiles = []; // ordered list of { fileInfo, bodyBuf, hash } | null
       for (const sub of row.subList || []) {
         if (!sub.rlsDocAtchFileUuid) continue;
         const fl = await getJson('/api/files/filelist/' + sub.rlsDocAtchFileUuid);
         const detail = fl && fl._embedded && fl._embedded.commonFileDetailDtoes && fl._embedded.commonFileDetailDtoes[0];
         if (!detail) continue;
-        const key = `${detail.fileName}::${detail.fileSize}`;
-        if (!seenInRow.has(key)) {
-          seenInRow.set(key, { fileId: detail.fileId, fileSn: detail.fileSn, fileName: detail.fileName, fileSize: detail.fileSize });
+        const attKey = `${detail.fileId}::${detail.fileSn}`;
+        let resolved = seenAttachment.get(attKey);
+        if (!resolved) {
+          const bodyBuf = await postDownload(detail.fileId, detail.fileSn);
+          const hash = crypto.createHash('sha256').update(bodyBuf).digest('hex');
+          resolved = { fileInfo: { fileId: detail.fileId, fileSn: detail.fileSn, fileName: detail.fileName, fileSize: detail.fileSize }, bodyBuf, hash };
+          seenAttachment.set(attKey, resolved);
         }
+        if (!rowFiles.some((r) => r && r.hash === resolved.hash)) rowFiles.push(resolved);
       }
-      let distinctFiles = [...seenInRow.values()];
+      let distinctFiles = rowFiles;
       if (distinctFiles.length === 0) distinctFiles = [null];
 
       if (!nameRegistry[base]) nameRegistry[base] = [];
-      for (const fileInfo of distinctFiles) {
-        const contentKey = fileInfo ? `${fileInfo.fileName}::${fileInfo.fileSize}` : `NOFILE::${row.fdadPlanUuid}`;
+      for (const resolved of distinctFiles) {
+        const contentKey = resolved ? resolved.hash : `NOFILE::${row.fdadPlanUuid}`;
         const group = nameRegistry[base];
         const existing = group.find((g) => g.contentKey === contentKey);
         if (existing) {
-          // Truly duplicate content already saved under this base name — reuse, no new download.
+          // Truly duplicate content (byte-identical) already saved under this base name.
           continue;
         }
         group.push({ contentKey, order: group.length });
@@ -154,15 +165,14 @@ async function main() {
           }
         }
 
-        if (!fileInfo) {
+        if (!resolved) {
           log(`SKIP (no attachment): ${finalName} <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
           continue;
         }
-        const bodyBuf = await postDownload(fileInfo.fileId, fileInfo.fileSn);
-        const srcExt = (fileInfo.fileName.match(/\.[a-zA-Z0-9]+$/) || ['.pdf'])[0];
-        const savedAs = saveMaybeSplit(OUT_DIR, finalName, srcExt, bodyBuf);
+        const srcExt = (resolved.fileInfo.fileName.match(/\.[a-zA-Z0-9]+$/) || ['.pdf'])[0];
+        const savedAs = saveMaybeSplit(OUT_DIR, finalName, srcExt, resolved.bodyBuf);
         cp.totalFiles++;
-        log(`SAVED: ${savedAs} (${bodyBuf.length}B) <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
+        log(`SAVED: ${savedAs} (${resolved.bodyBuf.length}B) <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
       }
       cp.totalReports++;
     }
