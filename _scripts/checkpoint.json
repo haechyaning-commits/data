@@ -9866,13 +9866,6 @@
         "finalName": "국가평생교육진흥원_2026년 재무감사"
       }
     ],
-    "null_2026년 특정감사": [
-      {
-        "contentKey": "5e0b49488a3f783f90ebcfd3b1593b5cd62a897d4c3aff827580715a41b034a1",
-        "order": 0,
-        "finalName": "null_2026년 특정감사"
-      }
-    ],
     "광주교통공사_2026년 특정감사": [
       {
         "contentKey": "8ed5c851bdea3e5bdca564894ad06f287240e2c9500a03850b12872ae870b38b",
@@ -24830,13 +24823,6 @@
         "finalName": "보령시시설관리공단_2025년 특정감사"
       }
     ],
-    "null_2025년 특정감사": [
-      {
-        "contentKey": "412003275b5526b7dd454e8f5dca87602c53f644d8d42be89f1f6b7ee9a78f4b",
-        "order": 0,
-        "finalName": "null_2025년 특정감사"
-      }
-    ],
     "아산시시설관리공단_2025년 복무감사": [
       {
         "contentKey": "3746acef7c7975c2846dad28b480bf903e95d06857b3324d45914cbe4b656387",
@@ -25086,6 +25072,20 @@
         "contentKey": "21e602cf78d51170ccf70792f72daabbc2249691757a67dd0d95ce9e463cbadb",
         "order": 1,
         "finalName": "한국전기안전공사_2025년 성과감사(2)"
+      }
+    ],
+    "광주광역시관광공사_2025년 특정감사": [
+      {
+        "contentKey": "412003275b5526b7dd454e8f5dca87602c53f644d8d42be89f1f6b7ee9a78f4b",
+        "order": 0,
+        "finalName": "광주광역시관광공사_2025년 특정감사"
+      }
+    ],
+    "광주광역시관광공사_2026년 특정감사": [
+      {
+        "contentKey": "5e0b49488a3f783f90ebcfd3b1593b5cd62a897d4c3aff827580715a41b034a1",
+        "order": 0,
+        "finalName": "광주광역시관광공사_2026년 특정감사"
       }
     ]
   },

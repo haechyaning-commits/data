@@ -92,10 +92,22 @@ function saveCheckpoint(cp) {
   fs.writeFileSync(CHECKPOINT_FILE, JSON.stringify(cp, null, 2));
 }
 
+async function buildInstCdLookup() {
+  // Some report rows have instCdNm=null in the source data. Fall back to the
+  // official institution-code registry (same API) instead of literal "null".
+  const map = new Map();
+  const r = await getJson('/api/instCd?size=3000&palaw1InstClsfCd=30');
+  const list = (r._embedded && r._embedded.instCdListDtoes) || [];
+  for (const item of list) map.set(item.instCd, item.instNm);
+  log(`Loaded instCd lookup: ${map.size} institutions`);
+  return map;
+}
+
 async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const cp = loadCheckpoint();
   log(`Resuming from page ${cp.nextPage}. Reports so far: ${cp.totalReports}, files so far: ${cp.totalFiles}`);
+  const instCdLookup = await buildInstCdLookup();
 
   // nameRegistry: base -> array of { contentKey, finalName }  (contentKey = fileName::fileSize or NOFILE::uuid)
   const nameRegistry = cp.nameRegistry;
@@ -118,7 +130,8 @@ async function main() {
     }
 
     for (const row of rows) {
-      const base = sanitize(`${row.instCdNm}_${row.adYr}년 ${row.adFldNm}`);
+      const instNm = row.instCdNm || instCdLookup.get(row.instCd) || row.instCd || '기관명미상';
+      const base = sanitize(`${instNm}_${row.adYr}년 ${row.adFldNm}`);
       log(`Checking: ${base} | 조치사항 ${row.subList ? row.subList.length : 0}건...`);
       // Resolve every subList item's actual file — never assume, always check.
       // Pre-dedup by fileId+fileSn (same attachment record => definitely identical
@@ -184,13 +197,13 @@ async function main() {
         }
 
         if (!resolved) {
-          log(`SKIP (no attachment): ${finalName} <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
+          log(`SKIP (no attachment): ${finalName} <- ${instNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
           continue;
         }
         const srcExt = (resolved.fileInfo.fileName.match(/\.[a-zA-Z0-9]+$/) || ['.pdf'])[0];
         const savedAs = saveMaybeSplit(OUT_DIR, finalName, srcExt, resolved.bodyBuf);
         cp.totalFiles++;
-        log(`SAVED: ${savedAs} (${resolved.bodyBuf.length}B) <- ${row.instCdNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
+        log(`SAVED: ${savedAs} (${resolved.bodyBuf.length}B) <- ${instNm} | ${row.adYr}년 ${row.adFldNm} | ${row.frstRegDt}`);
       }
       cp.totalReports++;
     }
