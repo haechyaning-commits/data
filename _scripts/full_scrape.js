@@ -34,6 +34,18 @@ function saveMaybeSplit(outDir, finalName, ext, buf) {
   return names.join(', ');
 }
 
+function pLimit(concurrency) {
+  let active = 0;
+  const queue = [];
+  const next = () => {
+    if (active >= concurrency || queue.length === 0) return;
+    active++;
+    const { fn, resolve, reject } = queue.shift();
+    fn().then(resolve, reject).finally(() => { active--; next(); });
+  };
+  return (fn) => new Promise((resolve, reject) => { queue.push({ fn, resolve, reject }); next(); });
+}
+
 function sanitize(name) {
   return name.replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, ' ').trim().slice(0, 150);
 }
@@ -113,22 +125,28 @@ async function main() {
       // bytes, safe to skip re-downloading), but the FINAL identity used for naming
       // is the actual content hash, since two different attachment records can
       // legitimately contain byte-identical content under different fileName metadata.
-      const seenAttachment = new Map(); // fileId::fileSn -> { fileInfo, bodyBuf, hash }
-      const rowFiles = []; // ordered list of { fileInfo, bodyBuf, hash } | null
-      for (const sub of row.subList || []) {
-        if (!sub.rlsDocAtchFileUuid) continue;
+      // subList items are fetched/downloaded concurrently (bounded) since the
+      // bottleneck is network round-trip latency through the CONNECT tunnel, not CPU.
+      const limit = pLimit(6);
+      const seenAttachment = new Map(); // fileId::fileSn -> Promise<{ fileInfo, bodyBuf, hash }>
+      const orderedResults = await Promise.all((row.subList || []).map((sub) => limit(async () => {
+        if (!sub.rlsDocAtchFileUuid) return null;
         const fl = await getJson('/api/files/filelist/' + sub.rlsDocAtchFileUuid);
         const detail = fl && fl._embedded && fl._embedded.commonFileDetailDtoes && fl._embedded.commonFileDetailDtoes[0];
-        if (!detail) continue;
+        if (!detail) return null;
         const attKey = `${detail.fileId}::${detail.fileSn}`;
-        let resolved = seenAttachment.get(attKey);
-        if (!resolved) {
-          const bodyBuf = await postDownload(detail.fileId, detail.fileSn);
-          const hash = crypto.createHash('sha256').update(bodyBuf).digest('hex');
-          resolved = { fileInfo: { fileId: detail.fileId, fileSn: detail.fileSn, fileName: detail.fileName, fileSize: detail.fileSize }, bodyBuf, hash };
-          seenAttachment.set(attKey, resolved);
+        if (!seenAttachment.has(attKey)) {
+          seenAttachment.set(attKey, (async () => {
+            const bodyBuf = await postDownload(detail.fileId, detail.fileSn);
+            const hash = crypto.createHash('sha256').update(bodyBuf).digest('hex');
+            return { fileInfo: { fileId: detail.fileId, fileSn: detail.fileSn, fileName: detail.fileName, fileSize: detail.fileSize }, bodyBuf, hash };
+          })());
         }
-        if (!rowFiles.some((r) => r && r.hash === resolved.hash)) rowFiles.push(resolved);
+        return seenAttachment.get(attKey);
+      })));
+      const rowFiles = [];
+      for (const r of orderedResults) {
+        if (r && !rowFiles.some((x) => x.hash === r.hash)) rowFiles.push(r);
       }
       let distinctFiles = rowFiles;
       if (distinctFiles.length === 0) distinctFiles = [null];
