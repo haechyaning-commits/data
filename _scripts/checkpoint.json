@@ -1,5 +1,5 @@
 {
-  "nextPage": 192,
+  "nextPage": 193,
   "nameRegistry": {
     "중소기업은행_2025년 특정감사": [
       {
@@ -24096,6 +24096,11 @@
         "contentKey": "dbf11fbff722c8e51607e5d03dbd8d9ea7acb13c7f904db303ce71923b53a38c",
         "order": 1,
         "finalName": "한국도로공사_2025년 성과감사(2)"
+      },
+      {
+        "contentKey": "b13f55ee96cca537562a2ed17cd64f70d0edc7e9148521343e73257e8f97dff2",
+        "order": 2,
+        "finalName": "한국도로공사_2025년 성과감사(3)"
       }
     ],
     "대한법률구조공단_2025년 종합감사": [
@@ -24477,6 +24482,21 @@
         "contentKey": "f30c30b17c0f97ab4e774170ce88e672a9c1c9400a1592e3e9595de22d704dee",
         "order": 21,
         "finalName": "한국중부발전_2025년 복무감사(22)"
+      },
+      {
+        "contentKey": "b6622635322838fa38c98c4955f04d5772254f0d9adbedb531209a6d9aae4710",
+        "order": 22,
+        "finalName": "한국중부발전_2025년 복무감사(23)"
+      },
+      {
+        "contentKey": "d96bc3d46f29cb92fcc8a077d7d60eba8d8e0f42e59b244c7513e9948c8e32fc",
+        "order": 23,
+        "finalName": "한국중부발전_2025년 복무감사(24)"
+      },
+      {
+        "contentKey": "c99889bb43ea332e22ab4c3eecb8094579617fc24f4aa61af73efacef16dbf65",
+        "order": 24,
+        "finalName": "한국중부발전_2025년 복무감사(25)"
       }
     ],
     "한국수력원자력_2025년 성과감사": [
@@ -24735,6 +24755,11 @@
         "contentKey": "7e2ebead1ee64330110baf03c0c548a9fcadf4cd5c57979c9651216b8978f5a2",
         "order": 2,
         "finalName": "국민건강보험공단_2025년 복무감사(3)"
+      },
+      {
+        "contentKey": "1f109da82a176a7786af9f26b7a680b145691a52994c0854a660d0831cbc78de",
+        "order": 3,
+        "finalName": "국민건강보험공단_2025년 복무감사(4)"
       }
     ],
     "국민연금공단_2025년 복무감사": [
@@ -27711,6 +27736,11 @@
         "contentKey": "f18afb220479e930dca639f925f627672eb80a8673c6b87ebcb97ebf8a651700",
         "order": 5,
         "finalName": "우체국물류지원단_2025년 복무감사(6)"
+      },
+      {
+        "contentKey": "95641298815b7d8a90222bffa14d1d5b1ad84da18d1014aa1304d9fb69ba7505",
+        "order": 6,
+        "finalName": "우체국물류지원단_2025년 복무감사(7)"
       }
     ],
     "한국은행_2025년 종합감사": [
@@ -29988,6 +30018,11 @@
         "contentKey": "d44037495c9c9d8b3039e78a0193129684a6974ba4235c3fa829dd8e4ef371e6",
         "order": 5,
         "finalName": "근로복지공단_2025년 특정감사(6)"
+      },
+      {
+        "contentKey": "47f71c74f11e5b4d19afd7bc738fdfe938de9e34f7281b526735b2fc2ffa58ac",
+        "order": 6,
+        "finalName": "근로복지공단_2025년 특정감사(7)"
       }
     ],
     "한국의약품안전관리원_2025년 복무감사": [
@@ -30512,6 +30547,11 @@
         "contentKey": "e0adad1b42f37329e09f4a9d99f00d7d0e16596b52fc06070d4303a8069fa964",
         "order": 29,
         "finalName": "한전KPS_2025년 특정감사(30)"
+      },
+      {
+        "contentKey": "1abb76e33535d9e0df17f27cd6c326c779f4e03aee99110156a71072b9ac96e5",
+        "order": 30,
+        "finalName": "한전KPS_2025년 특정감사(31)"
       }
     ],
     "안성시시설관리공단_2025년 복무감사": [
@@ -33852,6 +33892,11 @@
         "contentKey": "2ffaa9e5cfa9ad309bd347fef03594826aa38acf565bed3300f9b6dcc3392234",
         "order": 3,
         "finalName": "국토안전관리원_2025년 복무감사(4)"
+      },
+      {
+        "contentKey": "5e29259d4142dd7da8b60dd37f7d7aa6cef7bc058d6778a82608c9dc0bd5141b",
+        "order": 4,
+        "finalName": "국토안전관리원_2025년 복무감사(5)"
       }
     ],
     "한국주택금융공사_2025년 복무감사": [
@@ -46963,8 +47008,15 @@
         "order": 3,
         "finalName": "한국중부발전_2025년 재무감사(4)"
       }
+    ],
+    "한국무역보험공사_2025년 복무감사": [
+      {
+        "contentKey": "93c0c319c38d7f087e21a6bdb8bc560183513afd714935be16e5392bde52d441",
+        "order": 0,
+        "finalName": "한국무역보험공사_2025년 복무감사"
+      }
     ]
   },
-  "totalReports": 1920,
-  "totalFiles": 9074
+  "totalReports": 1930,
+  "totalFiles": 9084
 }
