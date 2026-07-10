@@ -43,5 +43,6 @@ for offset in range(n, 0, -1):
     for key, v in insts.items():
         nfiles = len(v['files'])
         tag = f"{nfiles}개 파일" if nfiles else "파일 없음/스킵"
-        print(f"  - {key} (조치사항 {v['action_items']}건) -> {tag}")
+        regdt = v.get('regdt', '?')
+        print(f"  - {key} [{regdt}] (조치사항 {v['action_items']}건) -> {tag}")
     print()
