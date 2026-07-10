@@ -1,5 +1,5 @@
 {
-  "nextPage": 214,
+  "nextPage": 215,
   "nameRegistry": {
     "중소기업은행_2025년 특정감사": [
       {
@@ -19178,6 +19178,11 @@
         "contentKey": "8a04a36e6275636d9faa05c3449780572839227ef8ae27fe940e828f10ab3a40",
         "order": 6,
         "finalName": "그랜드코리아레저_2025년 특정감사(7)"
+      },
+      {
+        "contentKey": "59dfc5a4a14296f11c86330834dd39a5085216ebb5628a88cd75ef8e0476de41",
+        "order": 7,
+        "finalName": "그랜드코리아레저_2025년 특정감사(8)"
       }
     ],
     "예금보험공사_2026년 종합감사": [
@@ -22892,6 +22897,11 @@
         "contentKey": "834d01c8ffd40260e0b0c49faef75fc66b525ab9afbe9ae4e84a5e7a31562cd8",
         "order": 22,
         "finalName": "한국수력원자력_2025년 복무감사(23)"
+      },
+      {
+        "contentKey": "bd9433325a492e020fca3b1a32ee4d717ca39d78c433459cbc82b8b2a2eb3c7d",
+        "order": 23,
+        "finalName": "한국수력원자력_2025년 복무감사(24)"
       }
     ],
     "한국세라믹기술원_2026년 복무감사": [
@@ -25051,6 +25061,11 @@
         "contentKey": "860d66668cd7a354e3fa32252abcaea6cd78c8e7cbea4065916f3329cce1464e",
         "order": 22,
         "finalName": "국민건강보험공단_2025년 종합감사(23)"
+      },
+      {
+        "contentKey": "d9d52f65b51d9a409fc1eec536b7d6d608e43c4b9c5b96ab61994daa0dc7475e",
+        "order": 23,
+        "finalName": "국민건강보험공단_2025년 종합감사(24)"
       }
     ],
     "대구경북첨단의료산업진흥재단_2025년 특정감사": [
@@ -32790,6 +32805,11 @@
         "contentKey": "559f1fdba2a699c86d4e8b7073981c4475a0d541132a85fcffdc8b31f3ef7335",
         "order": 5,
         "finalName": "한국소비자원_2025년 특정감사(6)"
+      },
+      {
+        "contentKey": "2f78595795d033038f79e049dad2968db1378ffb75bfe14d34aa53beada1ba65",
+        "order": 6,
+        "finalName": "한국소비자원_2025년 특정감사(7)"
       }
     ],
     "한국국토정보공사_2025년 특정감사": [
@@ -32883,6 +32903,11 @@
         "contentKey": "288d8bc6cfc2ba2b8ce7e38e452c19240d70827cfbc2f51753a38e427efe78f7",
         "order": 8,
         "finalName": "신용보증기금_2025년 특정감사(9)"
+      },
+      {
+        "contentKey": "d335671d620d23bf184ad8b1fe034a8b40a5711c965cd2ce332f0185037a5b36",
+        "order": 9,
+        "finalName": "신용보증기금_2025년 특정감사(10)"
       }
     ],
     "한전KPS_2025년 종합감사": [
@@ -43087,6 +43112,21 @@
         "contentKey": "8021d2846a04b67022904808849a3840b0df4f1988e0dc67f4c084e59bf15919",
         "order": 1,
         "finalName": "한국남동발전_2025년 특정감사(2)"
+      },
+      {
+        "contentKey": "c4bfa02fc524221365ad1161629f5995a9e98a980f029e1186431950371b497d",
+        "order": 2,
+        "finalName": "한국남동발전_2025년 특정감사(3)"
+      },
+      {
+        "contentKey": "b9863174494ef144d0775acda7efccf58c874d9d65123363d84fedb75b1ef4f6",
+        "order": 3,
+        "finalName": "한국남동발전_2025년 특정감사(4)"
+      },
+      {
+        "contentKey": "b2df509448727e39c6c421ac41e676bb6f6bdd3d41eabdadadc444c9bd162ed2",
+        "order": 4,
+        "finalName": "한국남동발전_2025년 특정감사(5)"
       }
     ],
     "서민금융진흥원_2025년 복무감사": [
@@ -44387,6 +44427,86 @@
         "contentKey": "5cde540388bc45c7938ef1aeb6d203eeb997636f59d8e82d8cbd74e4e7579123",
         "order": 43,
         "finalName": "한국광해광업공단_2025년 종합감사(44)"
+      },
+      {
+        "contentKey": "c03245db964c5e8b0d3a5110fcb8d3943c45dc968562e4819f66e27ce9aaab7e",
+        "order": 44,
+        "finalName": "한국광해광업공단_2025년 종합감사(45)"
+      },
+      {
+        "contentKey": "43a755cc9b098f25d74b2bc2591290500ac0a41620978aa1e4c99bb4393d6ed4",
+        "order": 45,
+        "finalName": "한국광해광업공단_2025년 종합감사(46)"
+      },
+      {
+        "contentKey": "a532333f99203b8b0689df6b2027dbde35c490349fa7563fc32c80d87303fc06",
+        "order": 46,
+        "finalName": "한국광해광업공단_2025년 종합감사(47)"
+      },
+      {
+        "contentKey": "8d470c0feea8ced83a5ad8a48723b1c06f9215ecc3df8e5cca1d76b3dc032561",
+        "order": 47,
+        "finalName": "한국광해광업공단_2025년 종합감사(48)"
+      },
+      {
+        "contentKey": "b1fab9ba6a2dfe543a4a34c6f0ffb875d1d8dd16ef045c37a8e7f5fa7b2e6def",
+        "order": 48,
+        "finalName": "한국광해광업공단_2025년 종합감사(49)"
+      },
+      {
+        "contentKey": "380b05f7b57ef4b45a6969dd63727f109bb0d71c8fbc54bb933f6885be1b55d8",
+        "order": 49,
+        "finalName": "한국광해광업공단_2025년 종합감사(50)"
+      },
+      {
+        "contentKey": "d485cfe6cd1a4db91008d0948ce6ac8f72c7511a0694bdd2a004e41638a118df",
+        "order": 50,
+        "finalName": "한국광해광업공단_2025년 종합감사(51)"
+      },
+      {
+        "contentKey": "5cac3a98fdbd9707e6a6359173092d182167a2d9a0513570463180e266561f71",
+        "order": 51,
+        "finalName": "한국광해광업공단_2025년 종합감사(52)"
+      },
+      {
+        "contentKey": "cb02ecb63bf6d933c699d08f69b4cd3ed96d8494a5077ee70cec9575c4c7fcce",
+        "order": 52,
+        "finalName": "한국광해광업공단_2025년 종합감사(53)"
+      },
+      {
+        "contentKey": "701171167688f0ccfa6f08573554633aa81022c23d96ff56f6f3390d79ee43a3",
+        "order": 53,
+        "finalName": "한국광해광업공단_2025년 종합감사(54)"
+      },
+      {
+        "contentKey": "dfdba1de8220cf5420d6cd4195c8b33869a3b3463799f4b82fcbd456d3fd878f",
+        "order": 54,
+        "finalName": "한국광해광업공단_2025년 종합감사(55)"
+      },
+      {
+        "contentKey": "a57af3073623f91bdc23393d48d6ca32b89b55967b1fb5c6ae9c14f5dc6d629c",
+        "order": 55,
+        "finalName": "한국광해광업공단_2025년 종합감사(56)"
+      },
+      {
+        "contentKey": "fcc43b11feb58d0da84abffd1b238efff04e28b62e161a86182e0f2f703e35e8",
+        "order": 56,
+        "finalName": "한국광해광업공단_2025년 종합감사(57)"
+      },
+      {
+        "contentKey": "5c10c8369448f00dcd3ab966016087e1b2a40152ef34c0e06314546650f99487",
+        "order": 57,
+        "finalName": "한국광해광업공단_2025년 종합감사(58)"
+      },
+      {
+        "contentKey": "d2f0f969dd4feedc27581dad3423c2f7cd1f8222423cf73398f998da34b96203",
+        "order": 58,
+        "finalName": "한국광해광업공단_2025년 종합감사(59)"
+      },
+      {
+        "contentKey": "44a38cd54ba3755e6ae617012612623b39ad275d2f68e669ebfdcec93fac7f55",
+        "order": 59,
+        "finalName": "한국광해광업공단_2025년 종합감사(60)"
       }
     ],
     "한국부동산원_2025년 성과감사": [
@@ -45384,6 +45504,11 @@
         "contentKey": "90ae13d04bd712401bd75449afbb950907a60cc31345e60fee80a8a119c15c6a",
         "order": 8,
         "finalName": "주택관리공단_2025년 종합감사(9)"
+      },
+      {
+        "contentKey": "3cb8b00be844b9d1aa132b90e59bb764127bbe5fb5c8215129a5a26cad6b6011",
+        "order": 9,
+        "finalName": "주택관리공단_2025년 종합감사(10)"
       }
     ],
     "한국조폐공사_2025년 복무감사": [
@@ -51694,8 +51819,132 @@
         "order": 2,
         "finalName": "국립생태원_2025년 재무감사(3)"
       }
+    ],
+    "국가평생교육진흥원_2025년 특정감사": [
+      {
+        "contentKey": "db74a00af4e6e794e4c9a31accc20cfc3f635659d02f80c20604e8b6fca11d0f",
+        "order": 0,
+        "finalName": "국가평생교육진흥원_2025년 특정감사"
+      }
+    ],
+    "한국도로공사서비스_2025년 종합감사": [
+      {
+        "contentKey": "d6444bbb6ab7cc5940cd4e95098ce38e274c7ab18f0e4a24fb60719c7f491123",
+        "order": 0,
+        "finalName": "한국도로공사서비스_2025년 종합감사(1)"
+      },
+      {
+        "contentKey": "0fb0f2371a575fb345d2b2739b2d6ca1ce8552b5b0638eded7e2284b28f426b7",
+        "order": 1,
+        "finalName": "한국도로공사서비스_2025년 종합감사(2)"
+      },
+      {
+        "contentKey": "187fda16a73e772f9a19e63b7ed8decbb17c63076e3b823f3c989b2e2a2a2dfd",
+        "order": 2,
+        "finalName": "한국도로공사서비스_2025년 종합감사(3)"
+      },
+      {
+        "contentKey": "fc1a00ebaeebd46c07e5a20424715bb75a1a7336356692c531b00f6cf55357f1",
+        "order": 3,
+        "finalName": "한국도로공사서비스_2025년 종합감사(4)"
+      },
+      {
+        "contentKey": "fbb58726032f873b38d69585362927f88da81e7026ddc674fb2c58f4cf55ef88",
+        "order": 4,
+        "finalName": "한국도로공사서비스_2025년 종합감사(5)"
+      },
+      {
+        "contentKey": "11f84d0d80a0c5f3e5612c640e7bfca177c0a1963c8ae37c50c55316d1202eae",
+        "order": 5,
+        "finalName": "한국도로공사서비스_2025년 종합감사(6)"
+      },
+      {
+        "contentKey": "c8d0bf3d72619b8e156094ea4d728150c9cd835361cedab055730134a265956d",
+        "order": 6,
+        "finalName": "한국도로공사서비스_2025년 종합감사(7)"
+      },
+      {
+        "contentKey": "16779401834c65e89a16bf6a14d31d036cf11fcf1248f1654114b0f39e18f1a0",
+        "order": 7,
+        "finalName": "한국도로공사서비스_2025년 종합감사(8)"
+      },
+      {
+        "contentKey": "fbc79861eb4ea073bfe71b15629189a4ec971d90588142dec98b43bac9e1b8b8",
+        "order": 8,
+        "finalName": "한국도로공사서비스_2025년 종합감사(9)"
+      },
+      {
+        "contentKey": "98c79a220dd3e354b070683145e1b17fe7e6014b0e626a34a2a261b66b371fe4",
+        "order": 9,
+        "finalName": "한국도로공사서비스_2025년 종합감사(10)"
+      },
+      {
+        "contentKey": "c61f5411da0359261f69ca67e88db2843e0564de8b5a446b62098a70bd3b2c0a",
+        "order": 10,
+        "finalName": "한국도로공사서비스_2025년 종합감사(11)"
+      },
+      {
+        "contentKey": "1a18008a40771a2c74f092622e39c063888a4951d6083850276abf014c432e9d",
+        "order": 11,
+        "finalName": "한국도로공사서비스_2025년 종합감사(12)"
+      },
+      {
+        "contentKey": "6c7b5022e69c6dcf9d01871087d18f14bfa0159cd32cc4b06f2601260c380227",
+        "order": 12,
+        "finalName": "한국도로공사서비스_2025년 종합감사(13)"
+      },
+      {
+        "contentKey": "5c27243be4b3780207de7a6c90587916784d54e8343a0363475a9ec5ae6bcb49",
+        "order": 13,
+        "finalName": "한국도로공사서비스_2025년 종합감사(14)"
+      },
+      {
+        "contentKey": "3d4c039445d4f5014ded2d68ec635edcf2d9fd53e30931c57fa97c787ec65f3e",
+        "order": 14,
+        "finalName": "한국도로공사서비스_2025년 종합감사(15)"
+      },
+      {
+        "contentKey": "6c54d99a4da3d62b4fed4d36522db73eb84b3ced0fa1f08e69dd8c340d134211",
+        "order": 15,
+        "finalName": "한국도로공사서비스_2025년 종합감사(16)"
+      },
+      {
+        "contentKey": "72b03b1a8260333f38d460a7b9c826e22cf785d3e6de30df2b2c72e3dd938599",
+        "order": 16,
+        "finalName": "한국도로공사서비스_2025년 종합감사(17)"
+      },
+      {
+        "contentKey": "c83b76e688044048b044a1c7f4abb540fd386d397f7b082be0510676abd4d073",
+        "order": 17,
+        "finalName": "한국도로공사서비스_2025년 종합감사(18)"
+      },
+      {
+        "contentKey": "eb3e6eb1172f791c34096ef38e27d3b182e723e7a51f38db5f03d6c417bbe1c3",
+        "order": 18,
+        "finalName": "한국도로공사서비스_2025년 종합감사(19)"
+      },
+      {
+        "contentKey": "0a942117e62231e48d94959096ccd0a79c69ff09eefd9c44e339de25e4039d26",
+        "order": 19,
+        "finalName": "한국도로공사서비스_2025년 종합감사(20)"
+      },
+      {
+        "contentKey": "348b0c607998d9ac41523c0384dab5bb8a462f626f5b7bf09b57fbbf980b1548",
+        "order": 20,
+        "finalName": "한국도로공사서비스_2025년 종합감사(21)"
+      },
+      {
+        "contentKey": "bfe7a9e353b11e56f099ced90de6b6acae6ee6232d7a22fc86802b17c85a8805",
+        "order": 21,
+        "finalName": "한국도로공사서비스_2025년 종합감사(22)"
+      },
+      {
+        "contentKey": "63c7fe16f630c66d02698ca2656895ddf520c87717c013dbf7b0b07b4ab8eb59",
+        "order": 22,
+        "finalName": "한국도로공사서비스_2025년 종합감사(23)"
+      }
     ]
   },
-  "totalReports": 2140,
-  "totalFiles": 10009
+  "totalReports": 2150,
+  "totalFiles": 10058
 }
