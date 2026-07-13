@@ -4,3 +4,8 @@
 _scripts/progress2.log
 _scripts/manifest_checkpoint.json
 _scripts/remaining2.txt
+
+# 수집 진행 상태 파일 (로컬 전용)
+_scripts/progress*.log
+_scripts/remaining2.txt
+_scripts/manifest_checkpoint*.json
