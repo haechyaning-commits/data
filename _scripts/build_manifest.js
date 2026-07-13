@@ -90,7 +90,7 @@ async function main() {
     // Resolve every row's attachment metadata in parallel (bounded globally),
     // then register into name groups strictly in row order so that (1),(2)...
     // numbering stays deterministic regardless of network completion order.
-    const limit = pLimit(16);
+    const limit = pLimit(40);
     const resolvedRows = await Promise.all(rows.map(async (row) => {
       const details = await Promise.all((row.subList || []).map((sub) => limit(async () => {
         if (!sub.rlsDocAtchFileUuid) return null;
