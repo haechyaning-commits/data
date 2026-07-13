@@ -23,27 +23,40 @@ const renames = JSON.parse(fs.readFileSync(path.join(S, 'renames3.json'), 'utf8'
 const manifest2 = JSON.parse(fs.readFileSync(path.join(S, 'manifest2.json'), 'utf8'));
 const manifest3 = JSON.parse(fs.readFileSync(path.join(S, 'manifest3.json'), 'utf8'));
 
+function inIndex(p) {
+  try { return git('ls-files', '-s', '--', p).trim(); } catch { return ''; }
+}
+
 const byName = new Map(manifest2.map((m) => [m.name, m]));
+const doneSet = new Set(fs.existsSync(path.join(S, 'done2.log'))
+  ? fs.readFileSync(path.join(S, 'done2.log'), 'utf8').split('\n').filter(Boolean) : []);
 let renamed = 0, skipped = 0;
 for (const r of renames) {
   const oldPath = `${OUT}/${r.from}`;
   const newPath = `${OUT}/${r.to}`;
-  let entry;
-  try {
-    entry = git('ls-files', '-s', '--', oldPath).trim();
-  } catch { entry = ''; }
-  if (!entry) {
-    console.log(`SKIP rename (not in index): ${oldPath}`);
+  const oldEntry = inIndex(oldPath);
+  const newEntry = inIndex(newPath);
+  // Idempotent: derive the blob from whichever path currently holds it.
+  const srcEntry = newEntry || oldEntry;
+  if (!srcEntry) {
+    console.log(`SKIP rename (neither path in index): ${oldPath}`);
     skipped++;
     continue;
   }
-  const [mode, sha] = entry.split(/\s+/);
-  git('update-index', '--add', '--cacheinfo', `${mode},${sha},${newPath}`);
-  git('update-index', '--skip-worktree', '--', newPath);
-  git('rm', '--cached', '-q', '--', oldPath);
+  const [mode, sha] = srcEntry.split(/\s+/);
+  if (!newEntry) {
+    git('update-index', '--add', '--cacheinfo', `${mode},${sha},${newPath}`);
+    git('update-index', '--skip-worktree', '--', newPath);
+  }
+  // --force-remove drops the old path from the index even when it is
+  // skip-worktree / outside the sparse set (plain `git rm --cached` refuses).
+  if (oldEntry) git('update-index', '--force-remove', '--', oldPath);
   const m = byName.get(r.manifestName);
   if (m) m.name = r.newManifestName;
-  fs.appendFileSync(path.join(S, 'done2.log'), r.newManifestName + '\n');
+  if (!doneSet.has(r.newManifestName)) {
+    fs.appendFileSync(path.join(S, 'done2.log'), r.newManifestName + '\n');
+    doneSet.add(r.newManifestName);
+  }
   renamed++;
 }
 
