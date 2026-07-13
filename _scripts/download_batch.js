@@ -91,11 +91,22 @@ async function main() {
     if (planned >= BATCH_BYTES) break;
   }
 
+  const UNAVAIL_FILE = path.join(__dirname, 'unavailable2.log');
   const limit = pLimit(20);
   let failures = 0;
+  let unavailable = 0;
   await Promise.all(batch.map((m) => limit(async () => {
     try {
       const buf = await postDownload(m.fileId, m.fileSn);
+      if (buf === null) {
+        // Permanently unavailable (HTTP 204). Mark done so it is never retried,
+        // and record it for transparency — but write no empty file.
+        unavailable++;
+        fs.appendFileSync(DONE_FILE, m.name + '\n');
+        fs.appendFileSync(UNAVAIL_FILE, `${m.name}${m.ext}\t${m.fileId}\t${m.fileSn}\n`);
+        log(`UNAVAILABLE (HTTP 204, skipped): ${m.name}${m.ext}`);
+        return;
+      }
       const savedAs = saveMaybeSplit(m.name, m.ext, buf);
       fs.appendFileSync(DONE_FILE, m.name + '\n');
       log(`SAVED: ${savedAs} (${buf.length}B)`);
