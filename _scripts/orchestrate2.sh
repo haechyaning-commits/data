@@ -7,7 +7,7 @@ cd /home/user/data
 BRANCH=claude/code-startup-error-ol0g7y
 SCRIPTS=/home/user/data/_scripts
 OUT=자체감사파일2
-BATCH_BYTES=${BATCH_BYTES:-1300000000}
+BATCH_BYTES=${BATCH_BYTES:-400000000}
 PREV_REMAINING=-1
 STALL=0
 
