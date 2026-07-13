@@ -61,6 +61,11 @@ async function postDownload(fileId, fileSn, retries = 4) {
         body,
         timeoutMs: 180000,
       });
+      // 204 No Content is a deterministic server-side condition (the file
+      // record exists but the portal serves no bytes — withheld/removed).
+      // Retrying never helps, so signal "permanently unavailable" instead of
+      // throwing, letting the caller record and skip it.
+      if (r.status === 204) return null;
       if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
       return r.body;
     } catch (e) {
