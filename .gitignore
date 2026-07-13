@@ -1,1 +1,6 @@
 # Files exceeding GitHub's 100MB limit — kept locally only, tracked in _scripts/oversized.log
+
+# 수집 진행 중 계속 변하는 작업 파일 (배치 결과물인 done2.log/manifest2.json은 커밋됨)
+_scripts/progress2.log
+_scripts/manifest_checkpoint.json
+_scripts/remaining2.txt
