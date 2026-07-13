@@ -99,17 +99,23 @@ async function main() {
     const rows = (search._embedded && search._embedded.fdadPlanRsltListDtoes) || [];
     if (rows.length === 0) { log(`Page ${page} empty. Stopping (totalElements=${totalElements}).`); break; }
 
+    // Fetch ALL rows' attachment metadata concurrently under one global limit,
+    // then register results sequentially in API order so numbering stays
+    // deterministic. (Per-row awaiting left the 40-slot limit mostly idle.)
     const limit = pLimit(40);
-    for (const row of rows) {
-      const instNm = row.instCdNm || instCdLookup.get(row.instCd) || row.instCd || '기관명미상';
-      const base = sanitize(`${instNm}_${row.adYr}년 ${row.adFldNm}`);
-      const details = await Promise.all((row.subList || []).map((sub) => limit(async () => {
+    const fetched = await Promise.all(rows.map(async (row) => ({
+      row,
+      details: await Promise.all((row.subList || []).map((sub) => limit(async () => {
         if (!sub.rlsDocAtchFileUuid) return null;
         const fl = await getJson('/api/files/filelist/' + sub.rlsDocAtchFileUuid);
         const d = fl && fl._embedded && fl._embedded.commonFileDetailDtoes && fl._embedded.commonFileDetailDtoes[0];
         if (!d) return null;
         return { fileId: d.fileId, fileSn: d.fileSn, fileName: d.fileName, fileSize: d.fileSize };
-      })));
+      }))),
+    })));
+    for (const { row, details } of fetched) {
+      const instNm = row.instCdNm || instCdLookup.get(row.instCd) || row.instCd || '기관명미상';
+      const base = sanitize(`${instNm}_${row.adYr}년 ${row.adFldNm}`);
       const rowFiles = [];
       const seen = new Set();
       for (const d of details) {
