@@ -86,7 +86,7 @@ async function main() {
     if (planned >= BATCH_BYTES) break;
   }
 
-  const limit = pLimit(8);
+  const limit = pLimit(20);
   let failures = 0;
   await Promise.all(batch.map((m) => limit(async () => {
     try {
