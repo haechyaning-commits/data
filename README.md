@@ -66,9 +66,18 @@ cat "한국동서발전_2026년 특정감사(11)_조각(1).hwpx.part" "한국동
 
 ## 다운로드 방법
 
-1. 저장소 최상위에서 브랜치를 `claude/audit-portal-data-organization-7v3j4p`로 전환
-2. 초록색 **Code** 버튼 → **Download ZIP**
-3. 압축 해제 후 `자체감사결과` 폴더 사용
+`main` 브랜치에 `자체감사결과`, `자체감사파일2` 두 폴더가 모두 포함되어 있습니다.
+
+**전체 받기 (ZIP)**
+1. 초록색 **Code** 버튼 → **Download ZIP**
+2. 압축 해제 후 원하는 폴더 사용 (`자체감사결과`, `자체감사파일2`가 함께 들어 있음)
+
+**특정 폴더만 받기 (예: `자체감사파일2`만)** — 터미널에서 sparse-checkout 사용:
+```
+git clone --filter=blob:none --sparse https://github.com/haechyaning-commits/data.git
+cd data
+git sparse-checkout set 자체감사파일2
+```
 
 (GitHub 웹 화면은 폴더당 1,000개 파일까지만 미리보기로 표시하지만, ZIP 다운로드나 `git clone`/`git pull`에는 전체 파일이 포함됩니다.)
 
