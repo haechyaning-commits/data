@@ -87,10 +87,11 @@ async function main() {
     const rows = (search._embedded && search._embedded.fdadPlanRsltListDtoes) || [];
     if (rows.length === 0) { log(`Page ${page} empty. Stopping (totalElements=${totalElements}).`); break; }
 
-    const limit = pLimit(8);
-    for (const row of rows) {
-      const instNm = row.instCdNm || instCdLookup.get(row.instCd) || row.instCd || '기관명미상';
-      const base = sanitize(`${instNm}_${row.adYr}년 ${row.adFldNm}`);
+    // Resolve every row's attachment metadata in parallel (bounded globally),
+    // then register into name groups strictly in row order so that (1),(2)...
+    // numbering stays deterministic regardless of network completion order.
+    const limit = pLimit(16);
+    const resolvedRows = await Promise.all(rows.map(async (row) => {
       const details = await Promise.all((row.subList || []).map((sub) => limit(async () => {
         if (!sub.rlsDocAtchFileUuid) return null;
         const fl = await getJson('/api/files/filelist/' + sub.rlsDocAtchFileUuid);
@@ -98,6 +99,11 @@ async function main() {
         if (!d) return null;
         return { fileId: d.fileId, fileSn: d.fileSn, fileName: d.fileName, fileSize: d.fileSize };
       })));
+      return { row, details };
+    }));
+    for (const { row, details } of resolvedRows) {
+      const instNm = row.instCdNm || instCdLookup.get(row.instCd) || row.instCd || '기관명미상';
+      const base = sanitize(`${instNm}_${row.adYr}년 ${row.adFldNm}`);
       // Within-row dedup: same attachment record (fileId::fileSn) or same
       // fileName+fileSize means the same document shared by multiple 조치사항.
       const rowFiles = [];
