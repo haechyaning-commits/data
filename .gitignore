@@ -9,3 +9,5 @@ _scripts/remaining2.txt
 _scripts/progress*.log
 _scripts/remaining2.txt
 _scripts/manifest_checkpoint*.json
+_scripts/renames3.json
+_scripts/manifest3.json
