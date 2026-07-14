@@ -105,7 +105,7 @@ git sparse-checkout set 자체감사파일2
 
 ## 처리 흐름 (API 호출 → 저장)
 
-> **크롤링이 아니라 API 호출입니다.** 사람이 보는 HTML 화면을 파싱한 것이 아니라, 포털이 내부적으로 쓰는 REST API 엔드포인트를 직접 호출해 JSON·파일을 그대로 받아 저장했습니다. 요청은 프록시로 `CONNECT` 터널을 뚫고 `www.pap.go.kr`에 HTTPS로 보냅니다.
+> ** 사람이 보는 HTML 화면을 파싱한 것이 아니라, 포털이 내부적으로 쓰는 REST API 엔드포인트를 직접 호출해 JSON·파일을 그대로 받아 저장했습니다. 요청은 프록시로 `CONNECT` 터널을 뚫고 `www.pap.go.kr`에 HTTPS로 보냅니다.
 
 `자체감사결과/` 수집 스크립트(`_scripts/full_scrape.js`) 기준, 첨부파일 1개가 저장되기까지의 과정입니다.
 
