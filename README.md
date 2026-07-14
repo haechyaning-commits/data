@@ -14,6 +14,7 @@
 - **기관분류**: 공공기관. 두 폴더를 합치면 2021-01-01 ~ 2026-07-07 전 구간이 끊김 없이 연속으로 수집되어 있습니다.
 - **수집 기준일**: 2026-07-07 (이 시점까지 포털에 공개된 보고서 기준).
 - 두 데이터셋의 수집 조건·방법을 한 장으로 정리한 문서는 [자체감사수집정리.md](자체감사수집정리.md)를 참고하세요.
+- 데이터 품질(무결성·누락) 점검 결과는 [품질점검.md](품질점검.md), 이용·출처 표기 안내는 [데이터이용안내.md](데이터이용안내.md)를 참고하세요.
 
 ## 📊 대시보드 (브라우저에서 바로 보기)
 
@@ -21,8 +22,9 @@
 
 - 📘 **[자체감사결과 대시보드](https://raw.githack.com/haechyaning-commits/data/main/dashboard_%EC%9E%90%EC%B2%B4%EA%B0%90%EC%82%AC%EA%B2%B0%EA%B3%BC.html)** — 2025-07-07 ~ 2026-07-07 · 첨부 10,828개 · 240개 기관
 - 📗 **[자체감사파일2 대시보드](https://raw.githack.com/haechyaning-commits/data/main/dashboard_%EC%9E%90%EC%B2%B4%EA%B0%90%EC%82%AC%ED%8C%8C%EC%9D%BC2.html)** — 2021-01-01 ~ 2025-07-06 · 첨부 45,853개 · 307개 기관
+- 🟣 **[통합 대시보드](https://raw.githack.com/haechyaning-commits/data/main/dashboard_%ED%86%B5%ED%95%A9.html)** — 결과+파일2를 데이터셋 토글로 함께 (2021~2026 · 첨부 56,681개 · 319개 기관)
 
-> 대시보드 원본 파일은 저장소 루트의 `dashboard_자체감사결과.html`, `dashboard_자체감사파일2.html`입니다. GitHub 저장소 화면에서는 HTML이 소스로만 보이므로, 위 링크(githack)로 렌더링해서 봅니다. 파일을 내려받아 더블클릭해도 동일하게 열립니다. (이 저장소는 용량이 커서 GitHub Pages 대신 githack으로 봅니다.)
+> 대시보드 원본 파일은 저장소 루트의 `dashboard_자체감사결과.html`, `dashboard_자체감사파일2.html`, `dashboard_통합.html`입니다. GitHub 저장소 화면에서는 HTML이 소스로만 보이므로, 위 링크(githack)로 렌더링해서 봅니다. 파일을 내려받아 더블클릭해도 동일하게 열립니다. (이 저장소는 용량이 커서 GitHub Pages 대신 githack으로 봅니다.)
 
 ## 폴더 안내
 
