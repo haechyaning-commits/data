@@ -202,7 +202,7 @@ def build():
       <div class="tile"><div class="n">{total_att:,}</div><div class="l">첨부파일</div></div>
       <div class="tile"><div class="n" id="ov-orgs">0</div><div class="l">기관</div></div>
       <div class="tile"><div class="n good" id="ov-best">0</div><div class="l">모범사례 보고서</div></div>
-      <div class="tile"><div class="n">2021–26</div><div class="l">수집 기간</div></div>
+      <div class="tile"><div class="n">2021-2026</div><div class="l">수집 기간</div></div>
     </div>
     <div class="grid2">
       <div class="panel"><h2>감사분야 분포</h2><div class="bars" id="ov-field"></div></div>
