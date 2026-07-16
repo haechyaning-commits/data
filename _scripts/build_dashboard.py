@@ -176,7 +176,7 @@ def build():
   </div>
 
   <div class="foot">
-    파일 '열기'는 저장소 루트 기준 상대경로(<code>자체감사결과/…</code>)입니다. 저장소를 내려받아 이 HTML을 같은 위치에서 열면 원문이 바로 열립니다.
+    검색·집계는 어디서나 동작합니다(데이터가 이 파일에 내장). 파일 '열기'는 <b>온라인에서 열면 GitHub 원문</b>으로, <b>내려받아 로컬에서 열면 자체감사결과/ 폴더</b>로 연결됩니다(저장소가 비공개면 GitHub 로그인·권한 필요).
     성능을 위해 표는 최대 <span id="cap">400</span>건까지 표시하며, 그 이상은 필터로 좁혀 보세요.
   </div>
 </div>
@@ -185,6 +185,9 @@ def build():
 const DATA = {payload};
 // [org,year,field,seq,title,dispo,ext,file]
 const CAP = 400;
+// 파일 열기 경로: 로컬(file://)이면 상대경로, 온라인이면 GitHub 원문 주소로 자동 전환
+const GH_BASE = "https://github.com/haechyaning-commits/data/blob/main/자체감사결과/";
+const FILE_BASE = (location.protocol === "file:") ? "자체감사결과/" : GH_BASE;
 const $ = s => document.querySelector(s);
 const state = {{q:"", org:"", year:"", fields:new Set(), dispos:new Set()}};
 
@@ -238,7 +241,7 @@ function render(){{
   const tb=$("#tbody");
   if(!shown.length){{ tb.innerHTML='<tr><td colspan="6"><div class="empty">조건에 맞는 결과가 없습니다.</div></td></tr>'; return; }}
   tb.innerHTML = shown.map(d=>{{
-    const href="자체감사결과/"+encodeURIComponent(d[7]);
+    const href=FILE_BASE+encodeURIComponent(d[7]);
     const dtags = d[5]?d[5].split(";").map(x=>`<span class="dtag">${{esc(x)}}</span>`).join(""):"";
     const seq = d[3]?` <span class="ext">(${{esc(d[3])}})</span>`:"";
     return `<tr>
