@@ -1,1 +1,5 @@
 # Files exceeding GitHub's 100MB limit — kept locally only, tracked in _scripts/oversized.log
+
+# 인덱스 빌드 임시 로그
+_scripts/index_progress.log
+_scripts/index_run.out
