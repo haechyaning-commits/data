@@ -13,6 +13,9 @@ from collections import Counter, defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IDX = os.path.join(ROOT, "감사지적_마스터인덱스.csv")
 REP = "/tmp/claude-0/-home-user-data/bb83659f-d124-5afc-a049-316386e196b5/scratchpad/카탈로그_보고서목록.csv"
+# 전체 첨부파일 목록(자체감사결과 r1 / 자체감사파일2 r2). git ls-tree 로 생성:
+#   git ls-tree --name-only <main> 자체감사결과/ , 자체감사파일2/
+FILELIST = "/tmp/claude-0/-home-user-data/bb83659f-d124-5afc-a049-316386e196b5/scratchpad/filelist.json"
 OUT = os.path.join(ROOT, "감사_통합대시보드.html")
 
 DISPO_CHIPS = ["주의", "통보-일반", "개선요구", "시정(기타)", "회수", "권고",
@@ -79,6 +82,9 @@ def build():
     findings, reports = load()
     fpayload = json.dumps(findings, ensure_ascii=False, separators=(",", ":"))
     rpayload = json.dumps(reports, ensure_ascii=False, separators=(",", ":"))
+    fl = json.load(open(FILELIST, encoding="utf-8"))
+    rf1payload = json.dumps(fl["r1"], ensure_ascii=False, separators=(",", ":"))
+    rf2payload = json.dumps(fl["r2"], ensure_ascii=False, separators=(",", ":"))
     cohort_orgs, cohort_n, bench_cards = benchmark(findings)
     dispo_chips = "".join(f'<button class="chip" data-d="{html.escape(d)}">{html.escape(d)}</button>' for d in DISPO_CHIPS)
     total_att = 56681
@@ -183,6 +189,7 @@ def build():
     <button class="tab" role="tab" data-v="overview" aria-selected="true">현황</button>
     <button class="tab" role="tab" data-v="findings" aria-selected="false">지적 탐색</button>
     <button class="tab" role="tab" data-v="reports" aria-selected="false">보고서 탐색</button>
+    <button class="tab" role="tab" data-v="files" aria-selected="false">파일 탐색</button>
     <button class="tab" role="tab" data-v="org" aria-selected="false">기관 프로파일</button>
     <button class="tab" role="tab" data-v="best" aria-selected="false">모범사례</button>
     <button class="tab" role="tab" data-v="bench" aria-selected="false">벤치마크</button>
@@ -239,6 +246,23 @@ def build():
     <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>처분종류</th><th>모범</th></tr></thead><tbody id="r-body"></tbody></table></div>
   </div>
 
+  <!-- 파일 탐색 (전체 첨부파일, 각 파일 바로 열기) -->
+  <div class="view" id="v-files">
+    <p class="note">전체 첨부파일 <b>56,686개</b>를 파일명(기관·연도·분야 포함)으로 검색하고 <b>각 파일을 바로 엽니다</b>. (온라인=GitHub 원문, 로컬=폴더)</p>
+    <div class="panel">
+      <div class="filters">
+        <div class="fg" style="flex:1 1 260px"><label>검색 (파일명·기관)</label><input type="search" id="x-q" placeholder="예: 한국환경공단, 종합감사, 계약…" autocomplete="off"></div>
+        <div class="fg"><label>데이터셋</label><select id="x-ds"><option value="">전체</option><option value="0">자체감사결과(25~26)</option><option value="1">자체감사파일2(21~25)</option></select></div>
+        <div class="fg"><label>연도</label><select id="x-year"><option value="">전체</option></select></div>
+        <div class="fg"><label>감사분야</label><select id="x-field"><option value="">전체</option></select></div>
+        <div class="fg"><label>형식</label><select id="x-ext"><option value="">전체</option></select></div>
+      </div>
+      <button class="reset" id="x-reset">필터 초기화</button>
+    </div>
+    <div class="resbar"><div class="count"><b id="x-n">0</b>개 파일</div><div class="hint" id="x-hint"></div></div>
+    <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>파일명</th><th>형식</th><th>열기</th></tr></thead><tbody id="x-body"></tbody></table></div>
+  </div>
+
   <!-- 기관 프로파일 -->
   <div class="view" id="v-org">
     <div class="filters"><div class="fg" style="flex:1 1 300px"><label>기관 선택</label><select id="o-sel"><option value="">기관을 선택하세요</option></select></div></div>
@@ -274,6 +298,9 @@ def build():
 <script>
 const F = {fpayload};   // [기관,연도,분야,순번,지적제목,처분키워드,형식,파일명]
 const R = {rpayload};   // [폴더,기관,연도,분야,감사사항명,처분종류,모범사례,조치수]
+const RF1 = {rf1payload};  // 자체감사결과 파일명
+const RF2 = {rf2payload};  // 자체감사파일2 파일명
+const FOLDERS = ["자체감사결과","자체감사파일2"];
 const CAP=400;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]));
@@ -290,6 +317,7 @@ $$('.tab').forEach(t=>t.addEventListener('click',()=>{{
   t.setAttribute('aria-selected','true');
   $$('.view').forEach(v=>v.classList.remove('on'));
   $('#v-'+t.dataset.v).classList.add('on');
+  if(t.dataset.v==='files') initFiles();
 }}));
 
 // ---- 공용 막대 ----
@@ -392,6 +420,42 @@ function reportRow(r){{
     $$('#r-dispo .chip[aria-pressed=true]').forEach(c=>c.setAttribute('aria-pressed','false'));render();}});
   render();
 }})();
+
+// ---- 파일 탐색 (전체 첨부파일) ----
+let filesInit=false, FILES=null;
+function parseFn(fn){{
+  const ext=(fn.match(/\.([^.]+)$/)||['',''])[1];
+  let base=fn.replace(/\.[^.]+$/,'').replace(/\((\d+)\)$/,'');
+  const m=base.match(/^(.*)_(\d{{4}})년\s*(.*)$/);
+  if(m) return [m[1], m[2], (m[3].trim()||'기타'), ext];
+  return [base, '', '', ext];
+}}
+function initFiles(){{
+  if(filesInit) return; filesInit=true;
+  FILES=[];
+  RF1.forEach(fn=>{{const p=parseFn(fn);FILES.push([0,fn,p[0],p[1],p[2],p[3]]);}});
+  RF2.forEach(fn=>{{const p=parseFn(fn);FILES.push([1,fn,p[0],p[1],p[2],p[3]]);}});
+  opts($('#x-year'),FILES.map(f=>f[3]),'num'); opts($('#x-field'),FILES.map(f=>f[4])); opts($('#x-ext'),FILES.map(f=>f[5]));
+  const st={{q:'',ds:'',year:'',field:'',ext:''}};let t=null;
+  const render=()=>{{
+    let res=FILES.filter(f=>{{
+      if(st.ds!==''&&String(f[0])!==st.ds)return false;
+      if(st.year&&f[3]!==st.year)return false; if(st.field&&f[4]!==st.field)return false; if(st.ext&&f[5]!==st.ext)return false;
+      if(st.q){{const q=st.q.toLowerCase();if(!(f[1].toLowerCase().includes(q)))return false;}}
+      return true;}});
+    $('#x-n').textContent=res.length.toLocaleString(); $('#x-hint').textContent=res.length>CAP?`상위 ${{CAP}}개 표시`:'';
+    const sh=res.slice(0,CAP);
+    $('#x-body').innerHTML= sh.length? sh.map(f=>{{
+      const base=(location.protocol==="file:")?FOLDERS[f[0]]+"/":("https://github.com/haechyaning-commits/data/blob/main/"+FOLDERS[f[0]]+"/");
+      const href=base+encodeURIComponent(f[1]);
+      return `<tr><td class="org">${{esc(f[2])}}</td><td class="c">${{esc(f[3])}}</td><td class="c">${{esc(f[4])}}</td><td>${{esc(f[1])}}</td><td class="c">${{esc(f[5])}}</td><td><a class="open" href="${{href}}" target="_blank" rel="noopener">열기</a></td></tr>`;
+    }}).join('') : '<tr><td colspan="6"><div class="empty">결과가 없습니다.</div></td></tr>';
+  }};
+  $('#x-q').addEventListener('input',e=>{{st.q=e.target.value.trim();clearTimeout(t);t=setTimeout(render,160);}});
+  ['ds','year','field','ext'].forEach(k=>$('#x-'+k).addEventListener('change',e=>{{st[k]=e.target.value;render();}}));
+  $('#x-reset').addEventListener('click',()=>{{Object.assign(st,{{q:'',ds:'',year:'',field:'',ext:''}});['q','ds','year','field','ext'].forEach(k=>$('#x-'+k).value='');render();}});
+  render();
+}}
 
 // ---- 기관 프로파일 ----
 (function(){{
