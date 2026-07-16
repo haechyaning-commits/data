@@ -53,7 +53,7 @@ def load():
     reports = []
     for r in csv.DictReader(open(REP, encoding="utf-8-sig")):
         reports.append([r["폴더"], r["기관"], r["연도"], r["감사분야"], r["감사사항명"],
-                        r["처분종류"], r["모범사례포함"], r["조치사항수"]])
+                        r["처분종류"], r["모범사례포함"], r["조치사항수"], r["파일명패턴"]])
     return findings, reports
 
 
@@ -243,7 +243,7 @@ def build():
       <button class="reset" id="r-reset">필터 초기화</button>
     </div>
     <div class="resbar"><div class="count"><b id="r-n">0</b>건</div><div class="hint" id="r-hint"></div></div>
-    <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>처분종류</th><th>모범</th></tr></thead><tbody id="r-body"></tbody></table></div>
+    <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>처분종류</th><th>모범</th><th>형식</th><th>열기</th></tr></thead><tbody id="r-body"></tbody></table></div>
   </div>
 
   <!-- 파일 탐색 (전체 첨부파일, 각 파일 바로 열기) -->
@@ -281,7 +281,7 @@ def build():
       </div>
     </div>
     <div class="resbar"><div class="count"><b id="b-n">0</b>건</div><div class="hint" id="b-hint"></div></div>
-    <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>함께 부과된 처분</th></tr></thead><tbody id="b-body"></tbody></table></div>
+    <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>함께 부과된 처분</th><th>형식</th><th>열기</th></tr></thead><tbody id="b-body"></tbody></table></div>
   </div>
 
   <!-- 벤치마크 -->
@@ -291,7 +291,8 @@ def build():
   </div>
 
   <div class="foot">
-    처분·모범사례·집계는 포털 목록 API 공식값(보고서 단위), 지적제목은 자체감사결과 문서 본문 추출(파일 단위)입니다. 원문 '열기'는 온라인=GitHub, 로컬=폴더로 연결(비공개 저장소는 GitHub 로그인 필요). 표는 성능상 상위 400건까지 표시합니다.
+    처분·모범사례·집계는 포털 목록 API 공식값(보고서 단위), 지적제목은 자체감사결과 문서 본문 추출(파일 단위)입니다. 원문 '열기'는 온라인=GitHub, 로컬=폴더로 연결(비공개 저장소는 GitHub 로그인 필요). 표는 성능상 상위 400건까지 표시합니다.<br>
+    보고서 탐색·기관 프로파일·모범사례의 '열기'는 그 <b>기관·연도·분야 그룹의 파일</b>입니다(한 그룹에 감사가 여러 건이면 파일을 개별 감사로 1:1 구분할 수 없어 그룹 파일을 함께 표시 — 개별 파일 단위로 정확히 보려면 <b>파일 탐색</b> 탭을 쓰세요).
   </div>
 </div>
 
@@ -306,6 +307,26 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]));
 const GH="https://github.com/haechyaning-commits/data/blob/main/자체감사결과/";
 const FILE_BASE=(location.protocol==="file:")?"자체감사결과/":GH;
+// 보고서(그룹)→파일 매핑: 파일명 base(번호·확장자 제거)로 그룹의 파일 찾기
+let FILEMAP=null;
+function ensureFileMap(){{
+  if(FILEMAP)return; FILEMAP={{}};
+  const add=(fi,fn)=>{{const b=fn.replace(/\.[^.]+$/,'').replace(/\((\d+)\)$/,'');const k=fi+'|'+b;(FILEMAP[k]=FILEMAP[k]||[]).push(fn);}};
+  RF1.forEach(fn=>add(0,fn)); RF2.forEach(fn=>add(1,fn));
+}}
+function fileCell(folder,pattern){{
+  ensureFileMap();
+  const fi=folder==='자체감사결과'?0:1;
+  const files=(FILEMAP[fi+'|'+pattern]||[]).slice().sort();
+  const dash='<span style="color:var(--muted)">—</span>';
+  if(!files.length) return [dash,dash];
+  const exts=[...new Set(files.map(f=>(f.match(/\.([^.]+)$/)||['',''])[1]))].join('·');
+  const base=(location.protocol==="file:")?folder+"/":("https://github.com/haechyaning-commits/data/blob/main/"+folder+"/");
+  const shown=files.slice(0,5);
+  const links=shown.map(f=>{{const num=(f.match(/\((\d+)\)\.[^.]+$/)||[])[1];return `<a class="open" href="${{base+encodeURIComponent(f)}}" target="_blank" rel="noopener">${{num?('('+num+')'):'열기'}}</a>`;}}).join(' ');
+  const more=files.length>5?` <span style="color:var(--muted)">+${{files.length-5}}</span>`:'';
+  return [esc(exts), links+more];
+}}
 const uniq=(arr)=>[...new Set(arr)].filter(Boolean);
 function opts(sel,vals,sort){{ let v=uniq(vals); if(sort==='num') v.sort((a,b)=>b-a); else v.sort();
   sel.insertAdjacentHTML('beforeend', v.map(x=>`<option value="${{esc(x)}}">${{esc(x)}}</option>`).join('')); }}
@@ -393,7 +414,8 @@ function lineChart(labels,series){{
 function reportRow(r){{
   const best=r[6]==='Y'?'<span class="best">모범</span>':'';
   const dt=toks(r[5]).filter(x=>x!=='모범사례').map(x=>`<span class="dtag">${{esc(x)}}</span>`).join('');
-  return `<tr><td class="org">${{esc(r[1])}}</td><td class="c">${{esc(r[2])}}</td><td class="c">${{esc(r[3])}}</td><td>${{esc(r[4])}}</td><td>${{dt}}</td><td>${{best}}</td></tr>`;
+  const fc=fileCell(r[0],r[8]);
+  return `<tr><td class="org">${{esc(r[1])}}</td><td class="c">${{esc(r[2])}}</td><td class="c">${{esc(r[3])}}</td><td>${{esc(r[4])}}</td><td>${{dt}}</td><td>${{best}}</td><td class="c">${{fc[0]}}</td><td>${{fc[1]}}</td></tr>`;
 }}
 (function(){{
   opts($('#r-org'),R.map(r=>r[1])); opts($('#r-year'),R.map(r=>r[2]),'num'); opts($('#r-field'),R.map(r=>r[3]));
@@ -409,7 +431,7 @@ function reportRow(r){{
     $('#r-n').textContent=res.length.toLocaleString();
     $('#r-hint').textContent=res.length>CAP?`상위 ${{CAP}}건 표시`:'';
     const sh=res.slice(0,CAP);
-    $('#r-body').innerHTML= sh.length? sh.map(reportRow).join('') : '<tr><td colspan="6"><div class="empty">결과가 없습니다.</div></td></tr>';
+    $('#r-body').innerHTML= sh.length? sh.map(reportRow).join('') : '<tr><td colspan="8"><div class="empty">결과가 없습니다.</div></td></tr>';
   }};
   $('#r-q').addEventListener('input',e=>{{st.q=e.target.value.trim();clearTimeout(t);t=setTimeout(render,140);}});
   ['ds','org','year','field','best'].forEach(k=>$('#r-'+k).addEventListener('change',e=>{{st[k]=e.target.value;render();}}));
@@ -482,7 +504,7 @@ function initFiles(){{
         <div class="panel"><h2>처분종류</h2><div class="bars" id="o-d"></div></div>
       </div>
       <div class="panel"><h2>보고서 목록 (${{rs.length>200?'상위 200':rs.length}})</h2>
-        <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>처분종류</th><th>모범</th></tr></thead><tbody>${{rows}}</tbody></table></div></div>`;
+        <div class="tblwrap"><table><thead><tr><th>기관</th><th>연도</th><th>분야</th><th>감사사항명</th><th>처분종류</th><th>모범</th><th>형식</th><th>열기</th></tr></thead><tbody>${{rows}}</tbody></table></div></div>`;
     bars($('#o-f'),fc); bars($('#o-d'),Object.fromEntries(Object.entries(dc).sort((a,b)=>b[1]-a[1]).slice(0,10)));
   }});
 }})();
@@ -500,8 +522,9 @@ function initFiles(){{
     const sh=res.slice(0,CAP);
     $('#b-body').innerHTML= sh.length? sh.map(r=>{{
       const dt=toks(r[5]).filter(x=>x!=='모범사례').map(x=>`<span class="dtag">${{esc(x)}}</span>`).join('');
-      return `<tr><td class="org">${{esc(r[1])}}</td><td class="c">${{esc(r[2])}}</td><td class="c">${{esc(r[3])}}</td><td>${{esc(r[4])}}</td><td>${{dt}}</td></tr>`;
-    }}).join('') : '<tr><td colspan="5"><div class="empty">결과가 없습니다.</div></td></tr>';
+      const fc=fileCell(r[0],r[8]);
+      return `<tr><td class="org">${{esc(r[1])}}</td><td class="c">${{esc(r[2])}}</td><td class="c">${{esc(r[3])}}</td><td>${{esc(r[4])}}</td><td>${{dt}}</td><td class="c">${{fc[0]}}</td><td>${{fc[1]}}</td></tr>`;
+    }}).join('') : '<tr><td colspan="7"><div class="empty">결과가 없습니다.</div></td></tr>';
   }};
   $('#b-q').addEventListener('input',e=>{{st.q=e.target.value.trim();clearTimeout(t);t=setTimeout(render,140);}});
   ['org','year','field'].forEach(k=>$('#b-'+k).addEventListener('change',e=>{{st[k]=e.target.value;render();}}));
