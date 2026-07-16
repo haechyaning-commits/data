@@ -197,10 +197,6 @@ def build():
       <div class="tile"><div class="n good" id="ov-best">0</div><div class="l">모범사례 보고서</div></div>
       <div class="tile"><div class="n">2021–26</div><div class="l">수집 기간</div></div>
     </div>
-    <div class="panel"><h2>연도별 보고서 추이</h2>
-      <div class="legend"><span><i style="background:var(--accent)"></i>자체감사결과</span><span><i style="background:var(--accent2)"></i>자체감사파일2</span></div>
-      <div id="trend"></div>
-    </div>
     <div class="grid2">
       <div class="panel"><h2>감사분야 분포</h2><div class="bars" id="ov-field"></div></div>
       <div class="panel"><h2>처분종류 분포 (공식)</h2><div class="bars" id="ov-dispo"></div></div>
@@ -312,11 +308,6 @@ function bars(el,counts,accent){{
   for(const r of R){{ fc[r[3]]=(fc[r[3]]||0)+1; for(const t of toks(r[5])){{if(t!=='모범사례')dc[t]=(dc[t]||0)+1;}} }}
   bars($('#ov-field'),fc);
   const top=Object.entries(dc).sort((a,b)=>b[1]-a[1]).slice(0,12); bars($('#ov-dispo'),Object.fromEntries(top));
-  // 연도추이 라인
-  const years=['2021','2022','2023','2024','2025','2026'];
-  const s1=years.map(y=>R.filter(r=>r[2]===y&&r[0]==='자체감사결과').length);
-  const s2=years.map(y=>R.filter(r=>r[2]===y&&r[0]==='자체감사파일2').length);
-  $('#trend').innerHTML=lineChart(years,[{{d:s1,c:'var(--accent)'}},{{d:s2,c:'var(--accent2)'}}]);
 }})();
 function lineChart(labels,series){{
   const W=1080,H=240,padL=44,padR=16,padT=14,padB=28, iw=W-padL-padR, ih=H-padT-padB;
@@ -419,7 +410,7 @@ function reportRow(r){{
         <div class="tile"><div class="n">${{rs.length.toLocaleString()}}</div><div class="l">보고서</div></div>
         <div class="tile"><div class="n good">${{best.toLocaleString()}}</div><div class="l">모범사례</div></div>
         <div class="tile"><div class="n">${{Object.keys(fc).length}}</div><div class="l">감사분야 수</div></div>
-        <div class="tile"><div class="n">${{(rs[0]?'✓':'')}}</div><div class="l">${{esc(org)}}</div></div>
+        <div class="tile"><div class="n">${{rs.reduce((a,r)=>a+(parseInt(r[7])||0),0).toLocaleString()}}</div><div class="l">조치사항 수 합계</div></div>
       </div>
       <div class="panel"><h2>연도별 보고서</h2>${{trend}}</div>
       <div class="grid2">
