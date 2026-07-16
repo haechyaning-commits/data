@@ -1,0 +1,218 @@
+<div class="viz-root">
+<style>
+  .viz-root{color-scheme:light;--surface-1:#fcfcfb;--plane:#f9f9f7;--text-primary:#0b0b0b;
+    --text-secondary:#52514e;--muted:#898781;--grid:#e1e0d9;--series-1:#2a78d6;
+    --border:rgba(11,11,11,.10);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:var(--text-primary);background:var(--plane);line-height:1.5;}
+  @media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .viz-root{
+    color-scheme:dark;--surface-1:#1a1a19;--plane:#0d0d0d;--text-primary:#fff;
+    --text-secondary:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--series-1:#3987e5;
+    --border:rgba(255,255,255,.10);}}
+  :root[data-theme="dark"] .viz-root{color-scheme:dark;--surface-1:#1a1a19;--plane:#0d0d0d;
+    --text-primary:#fff;--text-secondary:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+    --series-1:#3987e5;--border:rgba(255,255,255,.10);}
+  .viz-root *{box-sizing:border-box;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 64px;}
+  header h1{font-size:1.7rem;margin:0 0 6px;letter-spacing:-.01em;}
+  header .sub{color:var(--text-secondary);font-size:.95rem;margin-bottom:4px;}
+  header .meta{color:var(--muted);font-size:.82rem;}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 8px;}
+  @media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr);}}
+  .tile{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:16px;}
+  .tile .n{font-size:1.9rem;font-weight:700;letter-spacing:-.02em;}
+  .tile .l{color:var(--text-secondary);font-size:.8rem;margin-top:2px;}
+  section{margin-top:36px;}
+  section>h2{font-size:1.15rem;margin:0 0 4px;}
+  section>.note{color:var(--text-secondary);font-size:.85rem;margin:0 0 16px;}
+  .panel{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px;}
+  .bars .row{display:grid;grid-template-columns:150px 1fr 52px;align-items:center;gap:10px;
+    padding:5px 0;font-size:.86rem;}
+  .bars .lab{color:var(--text-secondary);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .bars .track{background:var(--grid);border-radius:5px;height:16px;overflow:hidden;}
+  .bars .fill{height:100%;border-radius:5px;}
+  .bars .val{font-variant-numeric:tabular-nums;font-weight:600;text-align:right;}
+  @media(max-width:640px){.bars .row{grid-template-columns:110px 1fr 44px;font-size:.8rem;}}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.cards{grid-template-columns:1fr;}}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:18px;}
+  .chead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
+  .chead h3{font-size:1rem;margin:0;}
+  .chead .cnt{font-size:.78rem;font-weight:700;color:#fff;background:var(--series-1);
+    padding:2px 8px;border-radius:20px;white-space:nowrap;}
+  .csub{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:12px 0 6px;}
+  .card ul{margin:0;padding-left:18px;font-size:.86rem;color:var(--text-primary);}
+  .card ul li{margin:3px 0;}
+  .ex{font-size:.82rem;color:var(--text-secondary);padding:4px 0;border-top:1px solid var(--grid);}
+  .ex:first-of-type{border-top:none;}
+  .exorg{color:var(--text-primary);font-weight:600;}
+  .tag{font-size:.7rem;background:var(--grid);color:var(--text-secondary);padding:1px 6px;border-radius:10px;margin-left:4px;}
+  table{width:100%;border-collapse:collapse;font-size:.84rem;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--grid);vertical-align:top;}
+  th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.03em;}
+  td:first-child,td:nth-child(2){white-space:nowrap;color:var(--text-secondary);}
+  .foot{margin-top:40px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--grid);padding-top:16px;}
+</style>
+<div class="wrap">
+  <header>
+    <h1>환경·에너지 공공기관 자체감사 지적 벤치마크</h1>
+    <div class="sub">동종기관의 반복 지적을 근거로 한국환경공단이 미리 점검할 항목을 정리한 리포트</div>
+    <div class="meta">데이터: 공공감사포털(pap.go.kr) 자체감사결과 · 수집기간 2025.7~2026.7 · 환경/에너지 30개 기관</div>
+  </header>
+
+  <div class="tiles">
+    <div class="tile"><div class="n">30</div><div class="l">환경·에너지 기관</div></div>
+    <div class="tile"><div class="n">3,796</div><div class="l">지적·첨부 건수</div></div>
+    <div class="tile"><div class="n">8</div><div class="l">반복 지적 주제</div></div>
+    <div class="tile"><div class="n">85</div><div class="l">한국환경공단 자체 지적</div></div>
+  </div>
+
+  <section>
+    <h2>1. 어떤 주제가 반복해서 지적되나</h2>
+    <p class="note">지적제목을 주제별로 분류한 건수(중복 주제 허용). 시설·공사·안전이 압도적으로 많습니다.</p>
+    <div class="panel"><div class="bars">
+<div class="row" title="시설·공사·안전: 1006건"><div class="lab">시설·공사·안전</div><div class="track"><div class="fill" style="width:100.0%;background:var(--series-1)"></div></div><div class="val">1,006</div></div>
+<div class="row" title="정보·개인정보·보안: 255건"><div class="lab">정보·개인정보·보안</div><div class="track"><div class="fill" style="width:25.3%;background:var(--series-1)"></div></div><div class="val">255</div></div>
+<div class="row" title="계약·용역 관리: 254건"><div class="lab">계약·용역 관리</div><div class="track"><div class="fill" style="width:25.2%;background:var(--series-1)"></div></div><div class="val">254</div></div>
+<div class="row" title="수당·여비·경비: 240건"><div class="lab">수당·여비·경비</div><div class="track"><div class="fill" style="width:23.9%;background:var(--series-1)"></div></div><div class="val">240</div></div>
+<div class="row" title="예산·회계 집행: 222건"><div class="lab">예산·회계 집행</div><div class="track"><div class="fill" style="width:22.1%;background:var(--series-1)"></div></div><div class="val">222</div></div>
+<div class="row" title="자산·물품·재고: 150건"><div class="lab">자산·물품·재고</div><div class="track"><div class="fill" style="width:14.9%;background:var(--series-1)"></div></div><div class="val">150</div></div>
+<div class="row" title="성과·평가 관리: 101건"><div class="lab">성과·평가 관리</div><div class="track"><div class="fill" style="width:10.0%;background:var(--series-1)"></div></div><div class="val">101</div></div>
+<div class="row" title="인사·복무 관리: 97건"><div class="lab">인사·복무 관리</div><div class="track"><div class="fill" style="width:9.6%;background:var(--series-1)"></div></div><div class="val">97</div></div>
+</div></div>
+  </section>
+
+  <section>
+    <div class="grid2">
+      <div>
+        <h2 style="font-size:1.05rem">2. 처분 유형 분포</h2>
+        <p class="note">통보·개선·주의 중심. 실제 징계로 이어진 건도 상당수.</p>
+        <div class="panel"><div class="bars">
+<div class="row" title="통보: 1480건"><div class="lab">통보</div><div class="track"><div class="fill" style="width:100.0%;background:var(--series-1)"></div></div><div class="val">1,480</div></div>
+<div class="row" title="개선: 1187건"><div class="lab">개선</div><div class="track"><div class="fill" style="width:80.2%;background:var(--series-1)"></div></div><div class="val">1,187</div></div>
+<div class="row" title="주의: 827건"><div class="lab">주의</div><div class="track"><div class="fill" style="width:55.9%;background:var(--series-1)"></div></div><div class="val">827</div></div>
+<div class="row" title="시정: 679건"><div class="lab">시정</div><div class="track"><div class="fill" style="width:45.9%;background:var(--series-1)"></div></div><div class="val">679</div></div>
+<div class="row" title="현지조치: 399건"><div class="lab">현지조치</div><div class="track"><div class="fill" style="width:27.0%;background:var(--series-1)"></div></div><div class="val">399</div></div>
+<div class="row" title="회수: 339건"><div class="lab">회수</div><div class="track"><div class="fill" style="width:22.9%;background:var(--series-1)"></div></div><div class="val">339</div></div>
+<div class="row" title="모범사례: 268건"><div class="lab">모범사례</div><div class="track"><div class="fill" style="width:18.1%;background:var(--series-1)"></div></div><div class="val">268</div></div>
+<div class="row" title="경고: 222건"><div class="lab">경고</div><div class="track"><div class="fill" style="width:15.0%;background:var(--series-1)"></div></div><div class="val">222</div></div>
+<div class="row" title="권고: 176건"><div class="lab">권고</div><div class="track"><div class="fill" style="width:11.9%;background:var(--series-1)"></div></div><div class="val">176</div></div>
+</div></div>
+      </div>
+      <div>
+        <h2 style="font-size:1.05rem">3. 감사분야 분포</h2>
+        <p class="note">종합감사에서 대부분의 지적이 나옵니다.</p>
+        <div class="panel"><div class="bars">
+<div class="row" title="종합: 2551건"><div class="lab">종합</div><div class="track"><div class="fill" style="width:100.0%;background:var(--series-1)"></div></div><div class="val">2,551</div></div>
+<div class="row" title="특정: 533건"><div class="lab">특정</div><div class="track"><div class="fill" style="width:20.9%;background:var(--series-1)"></div></div><div class="val">533</div></div>
+<div class="row" title="복무: 431건"><div class="lab">복무</div><div class="track"><div class="fill" style="width:16.9%;background:var(--series-1)"></div></div><div class="val">431</div></div>
+<div class="row" title="성과: 211건"><div class="lab">성과</div><div class="track"><div class="fill" style="width:8.3%;background:var(--series-1)"></div></div><div class="val">211</div></div>
+<div class="row" title="재무: 70건"><div class="lab">재무</div><div class="track"><div class="fill" style="width:2.7%;background:var(--series-1)"></div></div><div class="val">70</div></div>
+</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>4. 기관별 지적 건수 (상위 15)</h2>
+    <p class="note">규모가 큰 기관일수록 지적 건수도 많습니다. 절대 건수이므로 규모 보정 없이 참고용.</p>
+    <div class="panel"><div class="bars">
+<div class="row" title="한국전기안전공사: 750건"><div class="lab">한국전기안전공사</div><div class="track"><div class="fill" style="width:100.0%;background:var(--series-1)"></div></div><div class="val">750</div></div>
+<div class="row" title="한국전력공사: 508건"><div class="lab">한국전력공사</div><div class="track"><div class="fill" style="width:67.7%;background:var(--series-1)"></div></div><div class="val">508</div></div>
+<div class="row" title="한국수자원공사: 446건"><div class="lab">한국수자원공사</div><div class="track"><div class="fill" style="width:59.5%;background:var(--series-1)"></div></div><div class="val">446</div></div>
+<div class="row" title="한국수력원자력: 374건"><div class="lab">한국수력원자력</div><div class="track"><div class="fill" style="width:49.9%;background:var(--series-1)"></div></div><div class="val">374</div></div>
+<div class="row" title="한국가스안전공사: 219건"><div class="lab">한국가스안전공사</div><div class="track"><div class="fill" style="width:29.2%;background:var(--series-1)"></div></div><div class="val">219</div></div>
+<div class="row" title="한국가스기술공사: 217건"><div class="lab">한국가스기술공사</div><div class="track"><div class="fill" style="width:28.9%;background:var(--series-1)"></div></div><div class="val">217</div></div>
+<div class="row" title="한국가스공사: 164건"><div class="lab">한국가스공사</div><div class="track"><div class="fill" style="width:21.9%;background:var(--series-1)"></div></div><div class="val">164</div></div>
+<div class="row" title="한국남부발전: 149건"><div class="lab">한국남부발전</div><div class="track"><div class="fill" style="width:19.9%;background:var(--series-1)"></div></div><div class="val">149</div></div>
+<div class="row" title="한국중부발전: 147건"><div class="lab">한국중부발전</div><div class="track"><div class="fill" style="width:19.6%;background:var(--series-1)"></div></div><div class="val">147</div></div>
+<div class="row" title="한국동서발전: 133건"><div class="lab">한국동서발전</div><div class="track"><div class="fill" style="width:17.7%;background:var(--series-1)"></div></div><div class="val">133</div></div>
+<div class="row" title="한국광해광업공단: 124건"><div class="lab">한국광해광업공단</div><div class="track"><div class="fill" style="width:16.5%;background:var(--series-1)"></div></div><div class="val">124</div></div>
+<div class="row" title="한국서부발전: 95건"><div class="lab">한국서부발전</div><div class="track"><div class="fill" style="width:12.7%;background:var(--series-1)"></div></div><div class="val">95</div></div>
+<div class="row" title="한국환경공단: 85건"><div class="lab">한국환경공단</div><div class="track"><div class="fill" style="width:11.3%;background:var(--series-1)"></div></div><div class="val">85</div></div>
+<div class="row" title="한국에너지공단: 84건"><div class="lab">한국에너지공단</div><div class="track"><div class="fill" style="width:11.2%;background:var(--series-1)"></div></div><div class="val">84</div></div>
+<div class="row" title="한국석유공사: 71건"><div class="lab">한국석유공사</div><div class="track"><div class="fill" style="width:9.5%;background:var(--series-1)"></div></div><div class="val">71</div></div>
+</div></div>
+  </section>
+
+  <section>
+    <h2>5. 사전점검 체크리스트 (주제별)</h2>
+    <p class="note">각 주제의 동종기관 실제 지적을 근거로, 한국환경공단이 미리 확인하면 좋을 점검 포인트입니다.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="chead"><span class="cnt">1,006건</span><h3>시설·공사·안전</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>설계변경·과업변경의 근거문서 구비 여부</li><li>정기 안전점검 실시 및 기록 관리</li><li>준공·하자보수 이행 확인</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">광주환경공단</span> 기계설비 소모성 자재 통합 단가계약 이행 및 관리 부적정 <span class="tag">주의</span></div><div class="ex"><span class="exorg">수도권매립지관리공사</span> 현지조치 사항 (1) 시설 내 유도등 관리 미흡 <span class="tag">경고</span></div><div class="ex"><span class="exorg">인천환경공단</span> 서 발생한 약품탱크 염소가스 발생 사고와 관련 하여 안전 대응 및 관리 소홀 <span class="tag">통보</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">255건</span><h3>정보·개인정보·보안</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>개인정보 보유기간·파기 관리</li><li>시스템 접근권한 최소화 및 로그 점검</li><li>위탁사 정보보안 점검</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">광주환경공단</span> 하수관리 모니터링시스템 유지관리 용역 감독 업무 소홀 <span class="tag">주의</span></div><div class="ex"><span class="exorg">수도권매립지관리공사</span> 보안관리 부적정 [신분상조치] 주 의 [ <span class="tag">주의</span></div><div class="ex"><span class="exorg">인천환경공단</span> CCTV 모니터링 시스템 사무실 이전 설치 <span class="tag">개선</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">254건</span><h3>계약·용역 관리</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>수의계약 사유·연간 횟수 한도 준수</li><li>용역 과업이행 검사·정산 적정성</li><li>손해배상보험(공제) 가입·정산 확인</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">광주환경공단</span> 기계설비 소모성 자재 통합 단가계약 이행 및 관리 부적정 <span class="tag">주의</span></div><div class="ex"><span class="exorg">수도권매립지관리공사</span> 주민지원사업 계약상대자 선정 방식 부적정 [행정상조치] 통보 [ <span class="tag">통보</span></div><div class="ex"><span class="exorg">한국가스공사</span> 계약절차 미준수 관 계 부 서 ㉴지역본부 ㉳지사 <span class="tag">경고</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">240건</span><h3>수당·여비·경비</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>초과근무 사전승인과 실적 일치</li><li>출장 목적·정산의 적정성</li><li>업무추진비·법인카드 집행목적·증빙</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">한국가스공사</span> 부적정질병휴가사용으로지급된시간외수당환수 관 계 부 서 ㉯부 <span class="tag">시정</span></div><div class="ex"><span class="exorg">한국가스기술공사</span> 시간외근무 및 유연근무 출·퇴근시간 미등록 1 <span class="tag">시정</span></div><div class="ex"><span class="exorg">한국가스안전공사</span> 출장비 등 행정업무 처리에 관한 사항 <span class="tag">통보</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">222건</span><h3>예산·회계 집행</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>예산 전용·이월 절차 준수</li><li>보조·출연금 목적 외 사용 여부</li><li>정산 잔액 회수 이행</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">광주환경공단</span> 예산과목 집행(해소) 부적정 <span class="tag">주의</span></div><div class="ex"><span class="exorg">수도권매립지관리공사</span> 주민지원사업비 장기 미집행 해소 방안 마련 필요 [행정상조치] 통보 [ <span class="tag">개선</span></div><div class="ex"><span class="exorg">인천환경공단</span> 노후 컨테이너 불용품 처리 소홀 [ <span class="tag">시정</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">150건</span><h3>자산·물품·재고</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>정기 재물조사 실시 여부</li><li>불용품 처리 절차 적정성</li><li>자산 등재 누락 점검</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">광주환경공단</span> □□□□□파쇄선별기 파쇄날 구매 및 보수 부적정 <span class="tag">주의</span></div><div class="ex"><span class="exorg">인천환경공단</span> 노후 컨테이너 불용품 처리 소홀 [ <span class="tag">시정</span></div><div class="ex"><span class="exorg">한국가스공사</span> 13 9 공급설비 경상정비용 공기구 구매관리 미흡 <span class="tag">현지조치</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">101건</span><h3>성과·평가 관리</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>성과지표 산정근거·실적 검증</li><li>경영평가 대응 지표 관리</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">한국가스공사</span> 간이공사 및 소규모용역 전자 실적증명서 발급기능 마련</div><div class="ex"><span class="exorg">한국가스기술공사</span> ㄱ공사 준공 시 실적정산 불철저 <span class="tag">주의</span></div><div class="ex"><span class="exorg">한국가스안전공사</span> 해외사무소 실적 및 기술정보 관리에 관한 사항 <span class="tag">개선</span></div>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="cnt">97건</span><h3>인사·복무 관리</h3></div>
+        <div class="csub">사전점검 포인트</div>
+        <ul><li>채용 절차 공정성·규정 준수</li><li>복무관리지침 준수(출장·근태)</li><li>겸직·영리행위 신고 관리</li></ul>
+        <div class="csub">동종기관 실제 지적 예시</div>
+        <div class="ex"><span class="exorg">한국가스공사</span> 외부겸직 활동 부적정 <span class="tag">경고</span></div><div class="ex"><span class="exorg">한국가스기술공사</span> 인사조치 관련 성실의무(관리, 주의의무) 위반 <span class="tag">주의</span></div><div class="ex"><span class="exorg">한국가스안전공사</span> 기관장으로부터 겸직 허가(승인) 없이 영리업무 종사 <span class="tag">징계</span></div>
+      </div></div>
+  </section>
+
+  <section>
+    <h2>6. 한국환경공단 자체 지적 이력</h2>
+    <p class="note">본 데이터에 포함된 한국환경공단 자체감사 지적 85건 중 주요 항목.</p>
+    <div class="panel" style="overflow-x:auto">
+      <table>
+        <thead><tr><th>연도</th><th>분야</th><th>지적제목</th><th>처분</th></tr></thead>
+        <tbody><tr><td>2025</td><td>복무감사</td><td>3-1 피복 구매 절차 부적정</td><td>개선</td></tr><tr><td>2025</td><td>복무감사</td><td>출장 일정 변경 관련 복무관리지침 미준수</td><td>주의</td></tr><tr><td>2025</td><td>복무감사</td><td>3-3 보호지역 출입 통제 미흡</td><td>주의</td></tr><tr><td>2025</td><td>종합감사</td><td>1 설계용역 중간보고 및 최종보고에 대한 관리 부적정</td><td></td></tr><tr><td>2025</td><td>종합감사</td><td>도시침수 예방사업의 시뮬레이션 수행에 대한 개선 필요</td><td>개선</td></tr><tr><td>2025</td><td>종합감사</td><td>공사 원가계산서 관급자재 관리비 등 사용기간 산정기준 마련 필요</td><td>개선</td></tr><tr><td>2025</td><td>종합감사</td><td>하수관로 현장조사 용역 물량 조정 설계변경 보완 필요</td><td></td></tr><tr><td>2025</td><td>종합감사</td><td>&lt;모범사례&gt; 하수관로 기술진단 업무역량을 활용한 수해복구지원에 기여</td><td>모범사례</td></tr><tr><td>2025</td><td>종합감사</td><td>등급별 점수구간 환산점수 현황 등급별 점수구간 매우우수 우수 보통 미흡</td><td>개선</td></tr><tr><td>2025</td><td>종합감사</td><td>2 설계용역 중간보고 및 최종 보고에 대한 관리 부적정</td><td></td></tr><tr><td>2025</td><td>종합감사</td><td>참여 관리 미흡</td><td></td></tr><tr><td>2025</td><td>종합감사</td><td>&lt;모범사례&gt; ◑◑◑◑◑◑◑◑◑ 에너지 효율화를 통한 운영비 절감</td><td>개선;모범사례</td></tr><tr><td>2025</td><td>종합감사</td><td>청정수소 생산시설에 대한 온실가스 배출량 재산정 등 검토 필요</td><td></td></tr><tr><td>2025</td><td>종합감사</td><td>행 정업무 과다</td><td>개선</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b>방법론</b> · 마스터 인덱스(감사지적_마스터인덱스.csv)에서 기관명에 환경·에너지 키워드가 포함된 30개 기관을 추출.
+    지적제목을 키워드 규칙으로 주제 분류(문서마다 여러 주제에 중복 집계 가능). 처분유형은 본문에서 추출한 키워드 기준.<br>
+    <b>한계</b> · 지적제목 추출 커버리지 약 96%, 처분키워드 83% — 일부 서술형 보고서는 제목이 근사치일 수 있습니다. 기관별 건수는 규모 보정 없는 절대값입니다. 원문 확인은 자체감사결과 폴더의 해당 파일 참조.
+  </div>
+</div>
+</div>
