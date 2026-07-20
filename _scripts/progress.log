@@ -13982,3 +13982,12 @@
 [2026-07-20T01:26:09.177Z] SAVED (incremental): 한국보훈복지의료공단_2026년 복무감사(23).pdf (89231B) <- 한국보훈복지의료공단 | 2026년 복무감사 | 2026-07-08
 [2026-07-20T01:26:09.177Z] SAVED (incremental): 한국보훈복지의료공단_2026년 복무감사(24).pdf (100542B) <- 한국보훈복지의료공단 | 2026년 복무감사 | 2026-07-08
 [2026-07-20T01:26:09.205Z] Incremental run done. New reports: 90, new files: 510. New watermark: 2026-07-17. Totals: 2474 reports / 11338 files.
+[2026-07-20T02:27:07.430Z] Incremental run. Watermark(regDt) = 2026-07-17. Window 20250707..20260720. Existing: 2474 reports / 11338 files, 870 base groups.
+[2026-07-20T02:27:10.160Z] Loaded instCd lookup: 799 institutions
+[2026-07-20T02:27:48.304Z] Page 0 scanned. Staged new files so far: 4.
+[2026-07-20T02:27:48.305Z] Scan done. 4 new files across 2 groups (3 new reports). Integrating...
+[2026-07-20T02:27:48.346Z] SAVED (incremental): 한국어촌어항공단_2026년 특정감사(1).pdf (140917B) <- 한국어촌어항공단 | 2026년 특정감사 | 2026-07-20
+[2026-07-20T02:27:48.348Z] SAVED (incremental): 한국어촌어항공단_2026년 특정감사(2).pdf (164032B) <- 한국어촌어항공단 | 2026년 특정감사 | 2026-07-20
+[2026-07-20T02:27:48.391Z] SAVED (incremental): 한국무역보험공사_2026년 종합감사(1).hwpx (280037B) <- 한국무역보험공사 | 2026년 종합감사 | 2026-07-20
+[2026-07-20T02:27:48.393Z] SAVED (incremental): 한국무역보험공사_2026년 종합감사(2).hwpx (280033B) <- 한국무역보험공사 | 2026년 종합감사 | 2026-07-20
+[2026-07-20T02:27:48.428Z] Incremental run done. New reports: 3, new files: 4. New watermark: 2026-07-20. Totals: 2477 reports / 11342 files.
