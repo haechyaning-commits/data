@@ -5,6 +5,3 @@ perr
 
 # Incremental collector's temp staging dir (downloads before integration)
 _scripts/.incoming/
-
-# 증분수집으로 새로 받은 파일만 따로 모은 폴더 (자체감사결과에 이미 포함됨)
-신규수집_*/
