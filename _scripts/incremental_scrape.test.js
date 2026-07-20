@@ -1,48 +1,8 @@
-// Standalone test of the incremental renumber + on-disk rename algorithm.
-// Replicates renameOnDisk + integrateNewDoc verbatim from incremental_scrape.js
-// and asserts filenames end up correct across the tricky cases.
+// Tests for the incremental renumber + on-disk rename logic.
+// Imports the real functions from incremental_scrape.js (no network involved).
 const fs = require('fs');
 const path = require('path');
-
-const OUT_DIR = fs.mkdtempSync('/tmp/renum-');
-let DRY = false;
-function log(m) { /* quiet */ }
-
-function renameOnDisk(outDir, oldFinal, newFinal) {
-  if (oldFinal === newFinal) return;
-  for (const f of fs.readdirSync(outDir)) {
-    if (!f.startsWith(oldFinal)) continue;
-    const rest = f.slice(oldFinal.length);
-    const isPlain = rest.startsWith('.');
-    const isChunk = rest.startsWith('_조각(');
-    if (!isPlain && !isChunk) continue;
-    const target = newFinal + rest;
-    fs.renameSync(path.join(outDir, f), path.join(outDir, target));
-  }
-}
-
-function makeIntegrator(nameRegistry) {
-  const runInsertPos = new Map();
-  return function integrateNewDoc(base, contentKey, regDt) {
-    const group = nameRegistry[base] || (nameRegistry[base] = []);
-    const oldFinals = group.map((g) => g.finalName);
-    const pos = runInsertPos.get(base) || 0;
-    group.splice(pos, 0, { contentKey, regDt });
-    runInsertPos.set(base, pos + 1);
-    const numbered = group.length > 1;
-    const newFinals = group.map((g, i) => (numbered ? `${base}(${i + 1})` : base));
-    for (let j = oldFinals.length - 1; j >= 0; j--) {
-      const newIndex = j >= pos ? j + 1 : j;
-      renameOnDisk(OUT_DIR, oldFinals[j], newFinals[newIndex]);
-    }
-    group.forEach((g, i) => { g.finalName = newFinals[i]; });
-    return newFinals[pos];
-  };
-}
-
-function touch(name) { fs.writeFileSync(path.join(OUT_DIR, name), name); }
-function ls() { return fs.readdirSync(OUT_DIR).sort(); }
-function clean() { for (const f of fs.readdirSync(OUT_DIR)) fs.rmSync(path.join(OUT_DIR, f)); }
+const { computeRenumberPlan, renameStem } = require('./incremental_scrape.js');
 
 let pass = 0, fail = 0;
 function eq(actual, expected, msg) {
@@ -51,94 +11,95 @@ function eq(actual, expected, msg) {
   else { fail++; console.log(`  FAIL: ${msg}\n     expected ${e}\n     actual   ${a}`); }
 }
 
-// --- Case 1: existing single unnumbered file gets one new (newer) doc ---
+// ---------- computeRenumberPlan ----------
+
+// C1: single unnumbered existing file + 1 new doc -> new (1), old (2)
 {
-  clean();
   const base = '기관A_2025년 종합감사';
-  const reg = { [base]: [{ contentKey: 'old', finalName: base }] };
-  touch(`${base}.pdf`);
-  const integ = makeIntegrator(reg);
-  const fn = integ(base, 'new1', '2026-07-10');
-  const savedExt = '.hwp';
-  touch(`${fn}${savedExt}`);
-  eq(ls(), [`${base}(1).hwp`, `${base}(2).pdf`], 'C1: new doc -> (1), old -> (2)');
-  eq(reg[base].map(g => g.finalName), [`${base}(1)`, `${base}(2)`], 'C1: registry order');
+  const p = computeRenumberPlan(base, [base], 1);
+  eq(p.newDocFinals, [`${base}(1)`], 'C1: new doc -> (1)');
+  eq(p.existingRenames, [[base, `${base}(2)`]], 'C1: old unnumbered -> (2)');
+  eq(p.allFinals, [`${base}(1)`, `${base}(2)`], 'C1: full order');
 }
 
-// --- Case 2: existing numbered group (3) gets one new doc -> shift all +1 ---
+// C2: numbered group of 3 + 1 new -> shift all +1
 {
-  clean();
   const base = '기관B_2025년 특정감사';
-  const reg = { [base]: [
-    { contentKey: 'a', finalName: `${base}(1)` },
-    { contentKey: 'b', finalName: `${base}(2)` },
-    { contentKey: 'c', finalName: `${base}(3)` },
-  ] };
-  touch(`${base}(1).pdf`); touch(`${base}(2).pdf`); touch(`${base}(3).hwp`);
-  const integ = makeIntegrator(reg);
-  const fn = integ(base, 'new1', '2026-07-11');
-  touch(`${fn}.pdf`);
-  eq(ls(), [`${base}(1).pdf`, `${base}(2).pdf`, `${base}(3).pdf`, `${base}(4).hwp`],
-    'C2: new (1); a->(2) b->(3) c->(4)');
-  eq(reg[base].map(g => g.contentKey), ['new1', 'a', 'b', 'c'], 'C2: registry order newest-first');
+  const ex = [`${base}(1)`, `${base}(2)`, `${base}(3)`];
+  const p = computeRenumberPlan(base, ex, 1);
+  eq(p.newDocFinals, [`${base}(1)`], 'C2: new -> (1)');
+  eq(p.existingRenames, [[`${base}(1)`, `${base}(2)`], [`${base}(2)`, `${base}(3)`], [`${base}(3)`, `${base}(4)`]], 'C2: 1->2,2->3,3->4');
 }
 
-// --- Case 3: prefix hazard (1) vs (10) must not cross-rename ---
+// C3: batch — 2 new docs into a group of 2 at once -> existing shift +2
 {
-  clean();
   const base = '기관C_2025년 복무감사';
-  const reg = { [base]: [] };
-  for (let i = 1; i <= 10; i++) reg[base].push({ contentKey: 'x' + i, finalName: `${base}(${i})` });
-  for (let i = 1; i <= 10; i++) touch(`${base}(${i}).pdf`);
-  const integ = makeIntegrator(reg);
-  const fn = integ(base, 'newX', '2026-07-12');
-  touch(`${fn}.pdf`);
-  const expect = [];
-  for (let i = 1; i <= 11; i++) expect.push(`${base}(${i}).pdf`);
-  eq(ls(), expect.sort(), 'C3: 10->11 shift, no (1)/(10) collision');
-  eq(reg[base].map(g => g.contentKey)[0], 'newX', 'C3: new doc at front');
+  const ex = [`${base}(1)`, `${base}(2)`];
+  const p = computeRenumberPlan(base, ex, 2);
+  eq(p.newDocFinals, [`${base}(1)`, `${base}(2)`], 'C3: two new -> (1),(2)');
+  eq(p.existingRenames, [[`${base}(1)`, `${base}(3)`], [`${base}(2)`, `${base}(4)`]], 'C3: existing shift +2');
 }
 
-// --- Case 4: two new docs in same run+group (arriving newest-first) ---
+// C4: brand-new group (no existing) -> no renames
+{
+  const base = '기관D_2026년 재무감사';
+  const p1 = computeRenumberPlan(base, [], 1);
+  eq(p1.newDocFinals, [base], 'C4a: lone new doc unnumbered');
+  eq(p1.existingRenames, [], 'C4a: no renames');
+  const p2 = computeRenumberPlan(base, [], 3);
+  eq(p2.newDocFinals, [`${base}(1)`, `${base}(2)`, `${base}(3)`], 'C4b: 3 new -> numbered');
+}
+
+// ---------- renameStem (real files in a temp dir) ----------
+const DIR = fs.mkdtempSync('/tmp/renum-');
+function touch(n) { fs.writeFileSync(path.join(DIR, n), n); }
+function clean() { for (const f of fs.readdirSync(DIR)) fs.rmSync(path.join(DIR, f)); }
+function ls() { return fs.readdirSync(DIR).sort(); }
+
+// C5: (1)/(10) prefix hazard — renaming (1) must not touch (10)
 {
   clean();
-  const base = '기관D_2025년 재무감사';
-  const reg = { [base]: [{ contentKey: 'old', finalName: base }] };
-  touch(`${base}.pdf`);
-  const integ = makeIntegrator(reg);
-  const f1 = integ(base, 'newer', '2026-07-13'); touch(`${f1}.pdf`);   // arrives first (newest)
-  const f2 = integ(base, 'older', '2026-07-13'); touch(`${f2}.pdf`);   // arrives second
-  eq(reg[base].map(g => g.contentKey), ['newer', 'older', 'old'], 'C4: newest-first order preserved');
-  eq(ls(), [`${base}(1).pdf`, `${base}(2).pdf`, `${base}(3).pdf`], 'C4: files (1)(2)(3)');
-  eq([f1, f2], [`${base}(1)`, `${base}(2)`], 'C4: first arrival -> (1)');
+  touch('기관E_2025년 특정감사(1).pdf');
+  touch('기관E_2025년 특정감사(10).pdf');
+  const snap = fs.readdirSync(DIR);
+  const done = renameStem(DIR, '기관E_2025년 특정감사(1)', '기관E_2025년 특정감사(2)', snap, false);
+  eq(done.length, 1, 'C5: only one file renamed');
+  eq(ls(), ['기관E_2025년 특정감사(10).pdf', '기관E_2025년 특정감사(2).pdf'], 'C5: (1)->(2), (10) untouched');
 }
 
-// --- Case 5: split (_조각) files get renamed as a unit ---
+// C6: split _조각 chunks move together; unnumbered stem must NOT grab numbered sibling
 {
   clean();
-  const base = '기관E_2026년 특정감사';
-  const reg = { [base]: [{ contentKey: 'big', finalName: base }] };
-  touch(`${base}_조각(1).hwpx.part`); touch(`${base}_조각(2).hwpx.part`);
-  const integ = makeIntegrator(reg);
-  const fn = integ(base, 'new1', '2026-07-14'); touch(`${fn}.pdf`);
-  eq(ls(), [`${base}(1).pdf`, `${base}(2)_조각(1).hwpx.part`, `${base}(2)_조각(2).hwpx.part`],
-    'C5: split chunks shifted to (2) together');
+  touch('기관F_2026년 특정감사_조각(1).hwpx.part');
+  touch('기관F_2026년 특정감사_조각(2).hwpx.part');
+  touch('기관F_2026년 특정감사(5).pdf');
+  const snap = fs.readdirSync(DIR);
+  renameStem(DIR, '기관F_2026년 특정감사', '기관F_2026년 특정감사(3)', snap, false);
+  eq(ls(), [
+    '기관F_2026년 특정감사(3)_조각(1).hwpx.part',
+    '기관F_2026년 특정감사(3)_조각(2).hwpx.part',
+    '기관F_2026년 특정감사(5).pdf',
+  ], 'C6: split chunks shifted, numbered sibling untouched');
 }
 
-// --- Case 6: duplicate content is a no-op (handled by caller, but verify order stable) ---
+// C7: end-to-end apply — group of 3 + 2 new, high->low, single snapshot
 {
   clean();
-  const base = '기관F_2025년 성과감사';
-  const reg = { [base]: [
-    { contentKey: 'a', finalName: `${base}(1)` },
-    { contentKey: 'b', finalName: `${base}(2)` },
-  ] };
-  touch(`${base}(1).pdf`); touch(`${base}(2).pdf`);
-  // caller would skip integrate when contentKey already present; simulate no call
-  eq(reg[base].map(g => g.finalName), [`${base}(1)`, `${base}(2)`], 'C6: unchanged when dup');
-  eq(ls(), [`${base}(1).pdf`, `${base}(2).pdf`], 'C6: files unchanged');
+  const base = '기관G_2025년 종합감사';
+  ['(1).pdf', '(2).hwp', '(3).pdf'].forEach((s) => touch(base + s));
+  const ex = [`${base}(1)`, `${base}(2)`, `${base}(3)`];
+  const { newDocFinals, existingRenames } = computeRenumberPlan(base, ex, 2);
+  const snap = fs.readdirSync(DIR);
+  for (let k = existingRenames.length - 1; k >= 0; k--) {
+    renameStem(DIR, existingRenames[k][0], existingRenames[k][1], snap, false);
+  }
+  newDocFinals.forEach((fn) => touch(`${fn}.pdf`));
+  eq(ls(), [
+    `${base}(1).pdf`, `${base}(2).pdf`,
+    `${base}(3).pdf`, `${base}(4).hwp`, `${base}(5).pdf`,
+  ].sort(), 'C7: batch apply keeps every file, no collision');
 }
 
+fs.rmSync(DIR, { recursive: true, force: true });
 console.log(`\n${pass} passed, ${fail} failed`);
-fs.rmSync(OUT_DIR, { recursive: true, force: true });
 process.exit(fail ? 1 : 0);
