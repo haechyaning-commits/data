@@ -1,1 +1,4 @@
 # Files exceeding GitHub's 100MB limit — kept locally only, tracked in _scripts/oversized.log
+
+# Transient scratch files (e.g. git push stderr capture)
+perr
