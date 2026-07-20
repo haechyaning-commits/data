@@ -2,3 +2,6 @@
 
 # Transient scratch files (e.g. git push stderr capture)
 perr
+
+# Incremental collector's temp staging dir (downloads before integration)
+_scripts/.incoming/
